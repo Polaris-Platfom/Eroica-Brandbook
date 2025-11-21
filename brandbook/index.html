@@ -429,21 +429,8 @@
                 <div id="pattern-canvas"></div>
                 <div class="controls">
                     <button id="regen-pattern" class="btn-primary">Next Pattern Composition</button>
-                </div>
-                <div class="pattern-list">
-                    <h4>Available Patterns:</h4>
-                    <div class="pattern-tags">
-                        <span>Woven Grid</span>
-                        <span>Democratic Bloom</span>
-                        <span>Flowing Waves</span>
-                        <span>Symphonic Rise</span>
-                        <span>Interwoven Voices</span>
-                        <span>Spirals</span>
-                        <span>Collective Pulse</span>
-                        <span>Heroic Momentum</span>
-                        <span>Radial Symphony</span>
-                        <span>Circular Flow</span>
-                    </div>
+                    <button id="download-svg" class="btn-secondary">Download SVG</button>
+                    <button id="download-png" class="btn-secondary">Download PNG (4K)</button>
                 </div>
             </div>
         </section>
@@ -682,6 +669,27 @@
                                 <li><strong>Return Address:</strong> Inter 7pt</li>
                                 <li><strong>Positioning:</strong> 10mm from edges</li>
                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Template -->
+            <div class="stationery-section">
+                <h3 class="subsection-title">Email Communication</h3>
+                <p class="section-intro">Responsive HTML email template optimized for all major clients. Designed to maintain brand integrity across devices.</p>
+                
+                <div class="card-showcase">
+                    <div class="email-preview-container">
+                        <h4 style="margin-bottom: 1rem; color: var(--deep-civic-blue); font-size: 1rem; font-family: var(--font-serif);">Visual Preview</h4>
+                        <iframe src="email-template.html" style="width: 100%; height: 600px; border: 1px solid #eee; border-radius: 4px; background: #f9f9f9;"></iframe>
+                    </div>
+
+                    <div class="email-code-container">
+                        <h4 style="margin-bottom: 1rem; color: var(--deep-civic-blue); font-size: 1rem; font-family: var(--font-serif);">HTML Source Code</h4>
+                        <div style="position: relative; height: 600px;">
+                            <textarea id="email-code" style="width: 100%; height: 100%; padding: 1rem; font-family: monospace; font-size: 12px; border: 1px solid #eee; border-radius: 4px; background: #2c2c2c; color: #eee; resize: none;" readonly></textarea>
+                            <button id="copy-email-btn" class="btn-primary" style="position: absolute; top: 1rem; right: 1rem; font-size: 0.7rem; padding: 0.5rem 1rem;">Copy HTML</button>
                         </div>
                     </div>
                 </div>

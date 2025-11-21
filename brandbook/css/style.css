@@ -735,24 +735,45 @@ a {
 .controls {
     display: flex;
     justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
-.btn-primary {
+.btn-primary, .btn-secondary {
     padding: 1rem 2rem;
-    background: var(--deep-civic-blue);
-    color: var(--white);
     border: none;
-    font-size: 1rem;
+    font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     cursor: pointer;
     transition: var(--transition-smooth);
     font-family: var(--font-sans);
+    border-radius: 4px;
+}
+
+.btn-primary {
+    background: var(--deep-civic-blue);
+    color: var(--white);
 }
 
 .btn-primary:hover {
     background: var(--heroic-gold);
     color: var(--deep-civic-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.btn-secondary {
+    background: var(--white);
+    color: var(--deep-civic-blue);
+    border: 2px solid var(--deep-civic-blue);
+}
+
+.btn-secondary:hover {
+    background: var(--deep-civic-blue);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .pattern-list {

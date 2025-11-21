@@ -20,43 +20,49 @@ function initHeroCanvas() {
         height: heroElement.offsetHeight
     }).appendTo(heroElement);
 
-    // Create subtle flowing lines
+    // Create symphonic undulating lines
     const lines = [];
-    const numLines = 8;
+    const numLines = 6;
 
     for (let i = 0; i < numLines; i++) {
-        const y = (heroElement.offsetHeight / (numLines + 1)) * (i + 1);
-        const line = two.makeCurve(
-            0, y,
-            two.width * 0.25, y + Math.sin(i) * 50,
-            two.width * 0.5, y - Math.cos(i) * 50,
-            two.width * 0.75, y + Math.sin(i + 1) * 50,
-            two.width, y,
-            true
-        );
+        const points = [];
+        const numPoints = 30;
+        for (let j = 0; j <= numPoints; j++) {
+            points.push(new Two.Anchor(0, 0));
+        }
         
-        line.stroke = colors.deepCivicBlue;
-        line.linewidth = 2;
+        const line = two.makeCurve(points, true);
+        line.stroke = i % 2 === 0 ? colors.deepCivicBlue : colors.heroicGold;
+        line.linewidth = 1.5;
         line.noFill();
-        line.opacity = 0.3;
+        line.opacity = 0.15;
         
-        lines.push({ curve: line, offset: i * 0.5 });
+        lines.push({ 
+            curve: line, 
+            phase: Math.random() * Math.PI * 2,
+            speed: 0.002 + Math.random() * 0.002,
+            amplitude: 30 + Math.random() * 40,
+            yBase: (heroElement.offsetHeight / (numLines + 1)) * (i + 1)
+        });
     }
 
     // Animate
-    let frameCount = 0;
+    let time = 0;
     two.bind('update', function() {
-        frameCount += 0.01;
+        time += 1;
         
         lines.forEach((item, index) => {
             const curve = item.curve;
-            const offset = item.offset;
+            const yBase = item.yBase;
             
             // Animate the curve points
             curve.vertices.forEach((vertex, i) => {
-                if (i > 0 && i < curve.vertices.length - 1) {
-                    vertex.y += Math.sin(frameCount + offset + i) * 0.5;
-                }
+                const x = (i / (curve.vertices.length - 1)) * two.width;
+                const wave = Math.sin(x * 0.005 + time * item.speed + item.phase);
+                const wave2 = Math.cos(x * 0.01 - time * item.speed * 0.5);
+                
+                vertex.x = x;
+                vertex.y = yBase + wave * item.amplitude + wave2 * 20;
             });
         });
     }).play();
@@ -64,11 +70,11 @@ function initHeroCanvas() {
 
 // Pattern Generators - Inspired by the 8 brand patterns
 const patternGenerators = {
-    // 1. Woven Civic Grid
+    // 1. Woven Civic Grid (Stylized)
     wovenGrid: function(two) {
-        const gridSize = 40;
-        const rows = Math.ceil(two.height / gridSize);
-        const cols = Math.ceil(two.width / gridSize);
+        const gridSize = 50;
+        const rows = Math.ceil(two.height / gridSize) + 1;
+        const cols = Math.ceil(two.width / gridSize) + 1;
 
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
@@ -76,329 +82,295 @@ const patternGenerators = {
                 const y = row * gridSize;
                 const isCheckerboard = (row + col) % 2 === 0;
 
-                // Horizontal lines
-                for (let i = 0; i < 4; i++) {
-                    const rect = two.makeRectangle(
-                        x + gridSize/2, 
-                        y + i * 5 + 2.5, 
-                        gridSize, 
-                        3
-                    );
-                    rect.fill = isCheckerboard ? colors.heroicGold : colors.deepCivicBlue;
-                    rect.noStroke();
-                    rect.opacity = 0.6;
-                }
+                if (Math.random() > 0.8) continue; // Create negative space
 
-                // Vertical lines
-                for (let i = 0; i < 4; i++) {
-                    const rect = two.makeRectangle(
-                        x + i * 5 + 2.5, 
-                        y + gridSize/2, 
-                        3, 
-                        gridSize
+                const cx = x + gridSize/2;
+                const cy = y + gridSize/2;
+                
+                // Create stylized weave
+                const curve = two.makeCurve(
+                    x, cy,
+                    cx, cy - (isCheckerboard ? 10 : -10),
+                    x + gridSize, cy,
+                    true
+                );
+                
+                curve.noFill();
+                curve.stroke = isCheckerboard ? colors.heroicGold : colors.deepCivicBlue;
+                curve.linewidth = 2;
+                curve.opacity = 0.5;
+                
+                if (Math.random() > 0.5) {
+                    const vCurve = two.makeCurve(
+                        cx, y,
+                        cx + (isCheckerboard ? 10 : -10), cy,
+                        cx, y + gridSize,
+                        true
                     );
-                    rect.fill = isCheckerboard ? colors.deepCivicBlue : colors.heroicGold;
-                    rect.noStroke();
-                    rect.opacity = 0.6;
+                    vCurve.noFill();
+                    vCurve.stroke = isCheckerboard ? colors.deepCivicBlue : colors.heroicGold;
+                    vCurve.linewidth = 2;
+                    vCurve.opacity = 0.5;
                 }
             }
         }
     },
 
-    // 2. Democratic Bloom
+    // 2. Democratic Bloom (Stylized)
     bloom: function(two) {
-        const spacing = 80;
-        const rows = Math.ceil(two.height / spacing);
-        const cols = Math.ceil(two.width / spacing);
-
-        for (let row = 0; row < rows; row++) {
-            for (let col = 0; col < cols; col++) {
-                const centerX = col * spacing + spacing/2;
-                const centerY = row * spacing + spacing/2;
-
-                // Create 8 petals
-                for (let i = 0; i < 8; i++) {
-                    const angle = (Math.PI * 2 * i) / 8;
-                    const petalLength = 20;
-                    const petalWidth = 8;
-                    
-                    const x = centerX + Math.cos(angle) * petalLength;
-                    const y = centerY + Math.sin(angle) * petalLength;
-                    
-                    const ellipse = two.makeEllipse(x, y, petalWidth, petalLength);
-                    ellipse.fill = colors.heroicGold;
-                    ellipse.noStroke();
-                    ellipse.rotation = angle;
-                    ellipse.opacity = 0.7;
-                }
-
-                // Center circle
-                const center = two.makeCircle(centerX, centerY, 6);
-                center.fill = colors.deepCivicBlue;
-                center.noStroke();
-                center.opacity = 0.8;
+        const numBlooms = 15;
+        
+        for (let i = 0; i < numBlooms; i++) {
+            const cx = Math.random() * two.width;
+            const cy = Math.random() * two.height;
+            const scale = 0.5 + Math.random();
+            const numPetals = 8 + Math.floor(Math.random() * 4);
+            
+            const group = two.makeGroup();
+            
+            for (let j = 0; j < numPetals; j++) {
+                const angle = (Math.PI * 2 * j) / numPetals;
+                const length = 40 * scale;
+                
+                const petal = two.makeCurve(
+                    0, 0,
+                    Math.cos(angle - 0.2) * length * 0.5, Math.sin(angle - 0.2) * length * 0.5,
+                    Math.cos(angle) * length, Math.sin(angle) * length,
+                    Math.cos(angle + 0.2) * length * 0.5, Math.sin(angle + 0.2) * length * 0.5,
+                    0, 0,
+                    true
+                );
+                
+                petal.fill = "none";
+                petal.stroke = Math.random() > 0.5 ? colors.heroicGold : colors.deepCivicBlue;
+                petal.linewidth = 1.5;
+                petal.opacity = 0.6;
+                group.add(petal);
             }
+            
+            group.translation.set(cx, cy);
+            group.rotation = Math.random() * Math.PI;
         }
     },
 
-    // 3. Flowing Harmony (Waves)
+    // 3. Flowing Harmony (Waves - Stylized)
     flowingWaves: function(two) {
-        const waveHeight = 60;
-        const numWaves = Math.ceil(two.height / waveHeight) + 2;
-
+        const numWaves = 20;
+        
         for (let i = 0; i < numWaves; i++) {
-            const y = i * waveHeight - waveHeight;
+            const yBase = (two.height / numWaves) * i;
             const points = [];
-            const numPoints = 50;
-
+            const numPoints = 20;
+            const amplitude = 20 + Math.random() * 30;
+            const freq = 2 + Math.random() * 2;
+            const phase = Math.random() * Math.PI * 2;
+            
             for (let j = 0; j <= numPoints; j++) {
-                const x = (j / numPoints) * two.width;
-                const waveY = y + Math.sin((j / numPoints) * Math.PI * 3 + i * 0.5) * 15;
-                points.push(new Two.Anchor(x, waveY));
+                const x = (two.width / numPoints) * j;
+                const t = j / numPoints;
+                const y = yBase + Math.sin(t * Math.PI * freq + phase) * amplitude * (1 - Math.abs(0.5 - t)); // Taper edges
+                points.push(new Two.Anchor(x, y));
             }
-
-            const wave = two.makeCurve(points, false);
-            wave.stroke = i % 2 === 0 ? colors.deepCivicBlue : colors.heroicGold;
-            wave.linewidth = 8;
+            
+            const wave = two.makeCurve(points, true);
             wave.noFill();
-            wave.opacity = 0.6;
-            wave.cap = 'round';
+            wave.stroke = Math.random() > 0.6 ? colors.heroicGold : colors.deepCivicBlue;
+            wave.linewidth = 1 + Math.random() * 2;
+            wave.opacity = 0.4 + Math.random() * 0.4;
         }
     },
 
-    // 4. Symphonic Rise (Diagonal Waves)
+    // 4. Symphonic Rise (Diagonal - Stylized)
     symphonicRise: function(two) {
-        const spacing = 80;
-        const numWaves = 15;
+        const numLines = 25;
+        
+        for (let i = 0; i < numLines; i++) {
+            const xStart = -100 + Math.random() * two.width;
+            const points = [];
+            const numPoints = 20;
+            
+            for (let j = 0; j <= numPoints; j++) {
+                const t = j / numPoints;
+                const x = xStart + t * 400 + Math.sin(t * 10) * 20;
+                const y = two.height - t * two.height * 1.2 + Math.cos(t * 5) * 30;
+                points.push(new Two.Anchor(x, y));
+            }
+            
+            const line = two.makeCurve(points, true);
+            line.noFill();
+            line.stroke = Math.random() > 0.7 ? colors.heroicGold : colors.deepCivicBlue;
+            line.linewidth = 1 + Math.random() * 3;
+            line.opacity = 0.3 + Math.random() * 0.5;
+        }
+    },
 
-        for (let i = 0; i < numWaves; i++) {
+    // 5. Interwoven Voices (Stylized)
+    interwoven: function(two) {
+        const numVoices = 12;
+        
+        for (let i = 0; i < numVoices; i++) {
             const points = [];
             const numPoints = 30;
-            const offset = i * 30;
-
-            for (let j = 0; j <= numPoints; j++) {
-                const x = (j / numPoints) * (two.width + 200) - 100;
-                const y = (j / numPoints) * two.height + offset - two.height * 0.5;
-                const waveY = y + Math.sin((j / numPoints) * Math.PI * 2) * 20;
-                points.push(new Two.Anchor(x, waveY));
-            }
-
-            const wave = two.makeCurve(points, false);
-            wave.stroke = i % 2 === 0 ? colors.heroicGold : colors.deepCivicBlue;
-            wave.linewidth = 12;
-            wave.noFill();
-            wave.opacity = 0.5;
-            wave.cap = 'round';
-        }
-    },
-
-    // 5. Interwoven Voices
-    interwoven: function(two) {
-        const spacing = 60;
-        
-        // Horizontal waves
-        const rowsH = Math.ceil(two.height / spacing) + 1;
-        for (let i = 0; i < rowsH; i++) {
-            const y = i * spacing;
-            const points = [];
-            const numPoints = 40;
-
-            for (let j = 0; j <= numPoints; j++) {
-                const x = (j / numPoints) * two.width;
-                const waveY = y + Math.sin((j / numPoints) * Math.PI * 4) * 10;
-                points.push(new Two.Anchor(x, waveY));
-            }
-
-            const wave = two.makeCurve(points, false);
-            wave.stroke = i % 3 === 0 ? colors.heroicGold : colors.deepCivicBlue;
-            wave.linewidth = 6;
-            wave.noFill();
-            wave.opacity = 0.6;
-        }
-
-        // Vertical waves
-        const colsV = Math.ceil(two.width / spacing) + 1;
-        for (let i = 0; i < colsV; i++) {
-            const x = i * spacing;
-            const points = [];
-            const numPoints = 40;
-
-            for (let j = 0; j <= numPoints; j++) {
-                const y = (j / numPoints) * two.height;
-                const waveX = x + Math.sin((j / numPoints) * Math.PI * 4) * 10;
-                points.push(new Two.Anchor(waveX, y));
-            }
-
-            const wave = two.makeCurve(points, false);
-            wave.stroke = i % 3 === 0 ? colors.deepCivicBlue : colors.heroicGold;
-            wave.linewidth = 6;
-            wave.noFill();
-            wave.opacity = 0.4;
-        }
-    },
-
-    // 6. Spiral Participation
-    spirals: function(two) {
-        const spacing = 80;
-        const rows = Math.ceil(two.height / spacing);
-        const cols = Math.ceil(two.width / spacing);
-
-        for (let row = 0; row < rows; row++) {
-            for (let col = 0; col < cols; col++) {
-                const centerX = col * spacing + spacing/2;
-                const centerY = row * spacing + spacing/2;
-                const points = [];
-                const numPoints = 60;
-
-                for (let i = 0; i <= numPoints; i++) {
-                    const t = (i / numPoints) * Math.PI * 3;
-                    const r = (i / numPoints) * 25;
-                    const x = centerX + Math.cos(t) * r;
-                    const y = centerY + Math.sin(t) * r;
+            const isHorizontal = Math.random() > 0.5;
+            
+            if (isHorizontal) {
+                const yBase = Math.random() * two.height;
+                for (let j = 0; j <= numPoints; j++) {
+                    const x = (two.width / numPoints) * j;
+                    const y = yBase + Math.sin(j * 0.5) * 40 * Math.sin(j * 0.1);
                     points.push(new Two.Anchor(x, y));
                 }
+            } else {
+                const xBase = Math.random() * two.width;
+                for (let j = 0; j <= numPoints; j++) {
+                    const y = (two.height / numPoints) * j;
+                    const x = xBase + Math.sin(j * 0.5) * 40 * Math.sin(j * 0.1);
+                    points.push(new Two.Anchor(x, y));
+                }
+            }
+            
+            const voice = two.makeCurve(points, true);
+            voice.noFill();
+            voice.stroke = Math.random() > 0.5 ? colors.deepCivicBlue : colors.heroicGold;
+            voice.linewidth = 2;
+            voice.opacity = 0.5;
+        }
+    },
 
-                const spiral = two.makeCurve(points, false);
-                spiral.stroke = (row + col) % 2 === 0 ? colors.deepCivicBlue : colors.heroicGold;
-                spiral.linewidth = 4;
-                spiral.noFill();
-                spiral.opacity = 0.6;
+    // 6. Spiral Participation (Stylized)
+    spirals: function(two) {
+        const numSpirals = 8;
+        
+        for (let i = 0; i < numSpirals; i++) {
+            const cx = Math.random() * two.width;
+            const cy = Math.random() * two.height;
+            const maxR = 50 + Math.random() * 100;
+            const points = [];
+            const numPoints = 100;
+            
+            for (let j = 0; j <= numPoints; j++) {
+                const t = j / numPoints;
+                const angle = t * Math.PI * 8;
+                const r = t * maxR;
+                const x = cx + Math.cos(angle) * r;
+                const y = cy + Math.sin(angle) * r;
+                points.push(new Two.Anchor(x, y));
+            }
+            
+            const spiral = two.makeCurve(points, true);
+            spiral.noFill();
+            spiral.stroke = colors.deepCivicBlue;
+            spiral.linewidth = 1.5;
+            spiral.opacity = 0.4;
+            
+            // Add gold accent
+            if (Math.random() > 0.6) {
+                const accent = two.makeCircle(cx, cy, 4);
+                accent.fill = colors.heroicGold;
+                accent.noStroke();
             }
         }
     },
 
-    // 7. Collective Pulse (Vertical undulating lines)
+    // 7. Collective Pulse (Stylized)
     pulse: function(two) {
-        const spacing = 60;
-        const cols = Math.ceil(two.width / spacing) + 1;
-
-        for (let i = 0; i < cols; i++) {
-            const x = i * spacing;
+        const numLines = 30;
+        const cx = two.width / 2;
+        
+        for (let i = 0; i < numLines; i++) {
+            const x = (two.width / numLines) * i;
             const points = [];
-            const numPoints = 50;
-
+            const numPoints = 20;
+            const distFromCenter = Math.abs(x - cx) / (two.width/2);
+            const amplitude = 50 * (1 - distFromCenter); // More movement in center
+            
             for (let j = 0; j <= numPoints; j++) {
-                const y = (j / numPoints) * two.height;
-                const waveX = x + Math.sin((j / numPoints) * Math.PI * 6 + i * 0.5) * 8;
+                const y = (two.height / numPoints) * j;
+                const waveX = x + Math.sin(j * 0.5 + i * 0.2) * amplitude;
                 points.push(new Two.Anchor(waveX, y));
             }
-
-            const line = two.makeCurve(points, false);
-            line.stroke = i % 2 === 0 ? colors.deepCivicBlue : colors.heroicGold;
-            line.linewidth = 6;
-            line.noFill();
-            line.opacity = 0.5 - (i % 5) * 0.05;
-            line.cap = 'round';
-        }
-    },
-
-    // 8. Heroic Momentum (Bold diagonal waves)
-    momentum: function(two) {
-        const numWaves = 10;
-        
-        for (let i = 0; i < numWaves; i++) {
-            const points = [];
-            const numPoints = 40;
-            const yOffset = (i / numWaves) * two.height;
-
-            for (let j = 0; j <= numPoints; j++) {
-                const x = (j / numPoints) * two.width;
-                const y = yOffset + Math.sin((j / numPoints) * Math.PI * 3) * 30;
-                points.push(new Two.Anchor(x, y));
-            }
-
-            const wave = two.makeCurve(points, false);
-            wave.stroke = i % 2 === 0 ? colors.deepCivicBlue : colors.heroicGold;
-            wave.linewidth = 14;
-            wave.noFill();
-            wave.opacity = 0.6;
-            wave.cap = 'round';
-        }
-    },
-
-    // 9. Radial Symphony (Circular radiating patterns)
-    radialSymphony: function(two) {
-        const centerX = two.width / 2;
-        const centerY = two.height / 2;
-        const numRings = 12;
-        const maxRadius = Math.min(two.width, two.height) * 0.5;
-
-        for (let i = 0; i < numRings; i++) {
-            const radius = (maxRadius / numRings) * (i + 1);
-            const numPoints = 60;
-            const points = [];
-
-            for (let j = 0; j <= numPoints; j++) {
-                const angle = (j / numPoints) * Math.PI * 2;
-                const r = radius + Math.sin(angle * 3 + i) * 15;
-                const x = centerX + Math.cos(angle) * r;
-                const y = centerY + Math.sin(angle) * r;
-                points.push(new Two.Anchor(x, y));
-            }
-
-            const ring = two.makeCurve(points, true);
-            ring.stroke = i % 2 === 0 ? colors.deepCivicBlue : colors.heroicGold;
-            ring.linewidth = 2;
-            ring.noFill();
-            ring.opacity = 0.4 - (i * 0.02);
-        }
-
-        // Add radiating lines
-        const numLines = 16;
-        for (let i = 0; i < numLines; i++) {
-            const angle = (Math.PI * 2 * i) / numLines;
-            const startR = maxRadius * 0.3;
-            const endR = maxRadius * 0.9;
             
-            const x1 = centerX + Math.cos(angle) * startR;
-            const y1 = centerY + Math.sin(angle) * startR;
-            const x2 = centerX + Math.cos(angle) * endR;
-            const y2 = centerY + Math.sin(angle) * endR;
-
-            const line = two.makeLine(x1, y1, x2, y2);
-            line.stroke = colors.deepCivicBlue;
-            line.linewidth = 1;
-            line.opacity = 0.2;
+            const line = two.makeCurve(points, true);
+            line.noFill();
+            line.stroke = Math.random() > 0.8 ? colors.heroicGold : colors.deepCivicBlue;
+            line.linewidth = 1 + (1 - distFromCenter) * 2;
+            line.opacity = 0.3 + (1 - distFromCenter) * 0.4;
         }
     },
 
-    // 10. Circular Flow (Inspired by the symbol)
+    // 8. Heroic Momentum (Stylized)
+    momentum: function(two) {
+        const numShapes = 15;
+        
+        for (let i = 0; i < numShapes; i++) {
+            const x = Math.random() * two.width;
+            const y = Math.random() * two.height;
+            const size = 50 + Math.random() * 100;
+            
+            const points = [
+                new Two.Anchor(x, y + size),
+                new Two.Anchor(x + size * 0.5, y + size * 0.5),
+                new Two.Anchor(x + size, y),
+                new Two.Anchor(x + size * 0.5, y - size * 0.2),
+                new Two.Anchor(x, y)
+            ];
+            
+            const shape = two.makeCurve(points, true);
+            shape.noFill();
+            shape.stroke = Math.random() > 0.7 ? colors.heroicGold : colors.deepCivicBlue;
+            shape.linewidth = 2 + Math.random() * 4;
+            shape.opacity = 0.4;
+            shape.rotation = -Math.PI / 4;
+        }
+    },
+
+    // 9. Radial Symphony (Stylized)
+    radialSymphony: function(two) {
+        const cx = two.width / 2;
+        const cy = two.height / 2;
+        const numRings = 20;
+        
+        for (let i = 0; i < numRings; i++) {
+            const r = 20 + i * 15;
+            const points = [];
+            const numPoints = 60;
+            const noise = 5 + Math.sin(i * 0.5) * 10;
+            
+            for (let j = 0; j <= numPoints; j++) {
+                const angle = (Math.PI * 2 * j) / numPoints;
+                const radius = r + Math.sin(angle * 5) * noise;
+                const x = cx + Math.cos(angle) * radius;
+                const y = cy + Math.sin(angle) * radius;
+                points.push(new Two.Anchor(x, y));
+            }
+            
+            const ring = two.makeCurve(points, true); // Closed curve
+            ring.noFill();
+            ring.stroke = i % 3 === 0 ? colors.heroicGold : colors.deepCivicBlue;
+            ring.linewidth = 1;
+            ring.opacity = 0.3 + (1 - i/numRings) * 0.4;
+        }
+    },
+
+    // 10. Circular Flow (Stylized)
     circularFlow: function(two) {
-        const spacing = 100;
-        const rows = Math.ceil(two.height / spacing);
-        const cols = Math.ceil(two.width / spacing);
-
-        for (let row = 0; row < rows; row++) {
-            for (let col = 0; col < cols; col++) {
-                const centerX = col * spacing + spacing/2;
-                const centerY = row * spacing + spacing/2;
-
-                // Create flowing curves inside circle
-                const outerCircle = two.makeCircle(centerX, centerY, 35);
-                outerCircle.stroke = colors.deepCivicBlue;
-                outerCircle.linewidth = 2;
-                outerCircle.noFill();
-                outerCircle.opacity = 0.5;
-
-                // Inner spiral curves
-                for (let s = 0; s < 3; s++) {
-                    const points = [];
-                    const numPoints = 30;
-                    
-                    for (let i = 0; i <= numPoints; i++) {
-                        const t = (i / numPoints) * Math.PI * 2;
-                        const r = 10 + (i / numPoints) * 20 + s * 5;
-                        const x = centerX + Math.cos(t * 2 + s) * r;
-                        const y = centerY + Math.sin(t * 2 + s) * r;
-                        points.push(new Two.Anchor(x, y));
-                    }
-
-                    const curve = two.makeCurve(points, false);
-                    curve.stroke = s % 2 === 0 ? colors.heroicGold : colors.deepCivicBlue;
-                    curve.linewidth = 3;
-                    curve.noFill();
-                    curve.opacity = 0.6;
-                }
+        const numGroups = 5;
+        
+        for (let i = 0; i < numGroups; i++) {
+            const cx = Math.random() * two.width;
+            const cy = Math.random() * two.height;
+            const r = 40 + Math.random() * 60;
+            
+            for (let j = 0; j < 5; j++) {
+                const startAngle = Math.random() * Math.PI * 2;
+                const endAngle = startAngle + Math.PI + Math.random();
+                
+                const arc = two.makeArcSegment(cx, cy, r - j*5, r - j*5, startAngle, endAngle);
+                arc.noFill();
+                arc.stroke = Math.random() > 0.5 ? colors.deepCivicBlue : colors.heroicGold;
+                arc.linewidth = 2;
+                arc.opacity = 0.6;
+                arc.cap = 'round';
             }
         }
     }
@@ -407,33 +379,34 @@ const patternGenerators = {
 // Initialize Two.js for pattern canvas (dynamic pattern generation)
 let currentPatternIndex = 0;
 const patternNames = Object.keys(patternGenerators);
+let patternTwo = null; // Global reference for download
 
 function initPatternCanvas() {
     const patternElement = document.getElementById('pattern-canvas');
     if (!patternElement) return;
 
-    let two = new Two({
+    patternTwo = new Two({
         fullscreen: false,
         width: patternElement.offsetWidth,
         height: patternElement.offsetHeight
     }).appendTo(patternElement);
 
     function generatePattern() {
-        two.clear();
+        patternTwo.clear();
 
         // Set background
-        const bg = two.makeRectangle(two.width / 2, two.height / 2, two.width, two.height);
+        const bg = patternTwo.makeRectangle(patternTwo.width / 2, patternTwo.height / 2, patternTwo.width, patternTwo.height);
         bg.fill = colors.beige;
         bg.noStroke();
 
         // Generate current pattern
         const patternName = patternNames[currentPatternIndex];
-        patternGenerators[patternName](two);
+        patternGenerators[patternName](patternTwo);
 
         // Cycle to next pattern
         currentPatternIndex = (currentPatternIndex + 1) % patternNames.length;
 
-        two.update();
+        patternTwo.update();
     }
 
     generatePattern();
@@ -444,17 +417,113 @@ function initPatternCanvas() {
         regenButton.addEventListener('click', generatePattern);
     }
 
+    // Download SVG button
+    const downloadSvgButton = document.getElementById('download-svg');
+    if (downloadSvgButton) {
+        downloadSvgButton.addEventListener('click', function() {
+            downloadPatternSVG();
+        });
+    }
+
+    // Download PNG button
+    const downloadPngButton = document.getElementById('download-png');
+    if (downloadPngButton) {
+        downloadPngButton.addEventListener('click', function() {
+            downloadPatternPNG();
+        });
+    }
+
     // Handle window resize
     let resizeTimeout;
     window.addEventListener('resize', function() {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(function() {
-            two.width = patternElement.offsetWidth;
-            two.height = patternElement.offsetHeight;
-            two.renderer.setSize(two.width, two.height);
+            patternTwo.width = patternElement.offsetWidth;
+            patternTwo.height = patternElement.offsetHeight;
+            patternTwo.renderer.setSize(patternTwo.width, patternTwo.height);
             generatePattern();
         }, 250);
     });
+}
+
+// Download pattern as SVG
+function downloadPatternSVG() {
+    if (!patternTwo) return;
+    
+    const svgElement = patternTwo.renderer.domElement;
+    const svgData = new XMLSerializer().serializeToString(svgElement);
+    const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+    const svgUrl = URL.createObjectURL(svgBlob);
+    
+    const downloadLink = document.createElement('a');
+    downloadLink.href = svgUrl;
+    downloadLink.download = `eroica-pattern-${Date.now()}.svg`;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    URL.revokeObjectURL(svgUrl);
+}
+
+// Download pattern as high-resolution PNG (4K)
+function downloadPatternPNG() {
+    if (!patternTwo) return;
+    
+    // Create a high-res version
+    const scale = 4; // 4x resolution for 4K quality
+    const tempDiv = document.createElement('div');
+    tempDiv.style.position = 'absolute';
+    tempDiv.style.left = '-9999px';
+    document.body.appendChild(tempDiv);
+    
+    const highResTwo = new Two({
+        fullscreen: false,
+        width: patternTwo.width * scale,
+        height: patternTwo.height * scale,
+        type: Two.Types.canvas
+    }).appendTo(tempDiv);
+    
+    // Set background
+    const bg = highResTwo.makeRectangle(
+        highResTwo.width / 2, 
+        highResTwo.height / 2, 
+        highResTwo.width, 
+        highResTwo.height
+    );
+    bg.fill = colors.beige;
+    bg.noStroke();
+    
+    // Recreate current pattern at high resolution
+    const currentPatternName = patternNames[(currentPatternIndex - 1 + patternNames.length) % patternNames.length];
+    
+    // Scale up the pattern
+    const originalWidth = patternTwo.width;
+    const originalHeight = patternTwo.height;
+    patternTwo.width = highResTwo.width;
+    patternTwo.height = highResTwo.height;
+    
+    patternGenerators[currentPatternName](highResTwo);
+    
+    // Restore original dimensions
+    patternTwo.width = originalWidth;
+    patternTwo.height = originalHeight;
+    
+    highResTwo.update();
+    
+    // Convert to PNG
+    const canvas = highResTwo.renderer.domElement;
+    canvas.toBlob(function(blob) {
+        const url = URL.createObjectURL(blob);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = url;
+        downloadLink.download = `eroica-pattern-4k-${Date.now()}.png`;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+        URL.revokeObjectURL(url);
+        
+        // Cleanup
+        document.body.removeChild(tempDiv);
+    }, 'image/png', 1.0);
 }
 
 // Smooth scroll for navigation
@@ -506,6 +575,44 @@ function initScrollAnimations() {
     });
 }
 
+// Email Template Logic
+function initEmailTemplate() {
+    const emailCodeTextarea = document.getElementById('email-code');
+    const copyBtn = document.getElementById('copy-email-btn');
+
+    if (emailCodeTextarea && copyBtn) {
+        // Try to fetch the template content
+        fetch('email-template.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.text();
+            })
+            .then(html => {
+                emailCodeTextarea.value = html;
+            })
+            .catch(err => {
+                console.warn('Failed to load email template automatically (likely due to CORS on local file system):', err);
+                emailCodeTextarea.value = '<!-- Content could not be loaded automatically due to browser security restrictions (CORS). -->\n<!-- Please open "email-template.html" directly to view the source code. -->';
+            });
+
+        copyBtn.addEventListener('click', function() {
+            emailCodeTextarea.select();
+            document.execCommand('copy');
+            
+            const originalText = this.innerText;
+            this.innerText = 'Copied!';
+            this.style.background = '#C5A059'; // Heroic Gold
+            this.style.color = '#003366';
+            
+            setTimeout(() => {
+                this.innerText = originalText;
+                this.style.background = '';
+                this.style.color = '';
+            }, 2000);
+        });
+    }
+}
+
 // Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize Two.js canvases
@@ -517,6 +624,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize scroll animations
     initScrollAnimations();
+    
+    // Initialize Email Template
+    initEmailTemplate();
 
     // Log welcome message
     console.log('%c⚡ Eroica Brand Book', 'font-size: 20px; font-weight: bold; color: #003366;');
