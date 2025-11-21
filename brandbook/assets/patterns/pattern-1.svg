@@ -1,0 +1,24 @@
+<!-- Woven Civic Grid Pattern -->
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid-pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <!-- Horizontal lines -->
+      <rect x="0" y="0" width="20" height="5" fill="#C5A059"/>
+      <rect x="20" y="5" width="20" height="5" fill="#C5A059"/>
+      <rect x="0" y="10" width="20" height="5" fill="#C5A059"/>
+      <rect x="20" y="15" width="20" height="5" fill="#C5A059"/>
+      
+      <!-- Vertical lines -->
+      <rect x="0" y="20" width="5" height="20" fill="#003366"/>
+      <rect x="5" y="0" width="5" height="20" fill="#003366"/>
+      <rect x="10" y="20" width="5" height="20" fill="#003366"/>
+      <rect x="15" y="0" width="5" height="20" fill="#003366"/>
+      
+      <rect x="20" y="20" width="5" height="20" fill="#003366"/>
+      <rect x="25" y="0" width="5" height="20" fill="#003366"/>
+      <rect x="30" y="20" width="5" height="20" fill="#003366"/>
+      <rect x="35" y="0" width="5" height="20" fill="#003366"/>
+    </pattern>
+  </defs>
+  <rect width="200" height="200" fill="url(#grid-pattern)"/>
+</svg>

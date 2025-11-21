@@ -1,0 +1,15 @@
+<!-- Collective Pulse Pattern -->
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="pulse-pattern" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <!-- Vertical pulse lines -->
+      <path d="M10,0 Q12,15 10,30 T10,60" stroke="#003366" stroke-width="6" fill="none"/>
+      <path d="M20,0 Q18,15 20,30 T20,60" stroke="#C5A059" stroke-width="6" fill="none"/>
+      <path d="M30,0 Q32,15 30,30 T30,60" stroke="#003366" stroke-width="5" fill="none" opacity="0.7"/>
+      <path d="M40,0 Q38,15 40,30 T40,60" stroke="#C5A059" stroke-width="5" fill="none" opacity="0.7"/>
+      <path d="M50,0 Q52,15 50,30 T50,60" stroke="#003366" stroke-width="4" fill="none" opacity="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="200" height="200" fill="#F5F1E8"/>
+  <rect width="200" height="200" fill="url(#pulse-pattern)"/>
+</svg>

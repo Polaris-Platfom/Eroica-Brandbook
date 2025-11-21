@@ -1,0 +1,17 @@
+<!-- Interwoven Voices Pattern -->
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="interwoven-pattern" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <!-- Horizontal weave -->
+      <path d="M0,15 Q15,10 30,15 T60,15" stroke="#003366" stroke-width="6" fill="none"/>
+      <path d="M0,30 Q15,25 30,30 T60,30" stroke="#C5A059" stroke-width="6" fill="none"/>
+      <path d="M0,45 Q15,40 30,45 T60,45" stroke="#003366" stroke-width="6" fill="none"/>
+      
+      <!-- Vertical weave -->
+      <path d="M15,0 Q10,15 15,30 T15,60" stroke="#C5A059" stroke-width="6" fill="none" opacity="0.7"/>
+      <path d="M45,0 Q40,15 45,30 T45,60" stroke="#003366" stroke-width="6" fill="none" opacity="0.7"/>
+    </pattern>
+  </defs>
+  <rect width="200" height="200" fill="#FFFFFF"/>
+  <rect width="200" height="200" fill="url(#interwoven-pattern)"/>
+</svg>

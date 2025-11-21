@@ -1,0 +1,13 @@
+<!-- Heroic Momentum Pattern -->
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="momentum-pattern" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+      <!-- Bold diagonal waves -->
+      <path d="M0,60 Q20,40 40,50 T80,60" stroke="#003366" stroke-width="14" fill="none"/>
+      <path d="M0,40 Q20,20 40,30 T80,40" stroke="#C5A059" stroke-width="14" fill="none"/>
+      <path d="M0,20 Q20,0 40,10 T80,20" stroke="#003366" stroke-width="12" fill="none" opacity="0.6"/>
+    </pattern>
+  </defs>
+  <rect width="200" height="200" fill="#F5F1E8"/>
+  <rect width="200" height="200" fill="url(#momentum-pattern)"/>
+</svg>
