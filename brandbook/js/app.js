@@ -852,129 +852,8 @@ window.downloadWordmark = function (format) {
     }
 };
 
-// Interactive Logo Studio Logic
-function initLogoStudio() {
-    const logoSelect = document.getElementById('studio-logo-select');
-    const colorSwatches = document.querySelectorAll('.color-swatch');
-    const colorPicker = document.getElementById('studio-color-picker');
-    const previewContainer = document.getElementById('studio-preview-container');
-    const downloadBtn = document.getElementById('studio-download-btn');
-
-    if (!logoSelect || !previewContainer) return;
-
-    let currentSvgContent = '';
-    let currentColor = '#003366';
-
-    // Load initial logo
-    loadLogo(logoSelect.value);
-
-    // Event Listeners
-    logoSelect.addEventListener('change', (e) => {
-        loadLogo(e.target.value);
-    });
-
-    colorSwatches.forEach(swatch => {
-        swatch.addEventListener('click', () => {
-            const color = swatch.getAttribute('data-color');
-            updateColor(color);
-            colorPicker.value = color; // Update picker visual
-        });
-    });
-
-    colorPicker.addEventListener('input', (e) => {
-        updateColor(e.target.value);
-    });
-
-    downloadBtn.addEventListener('click', () => {
-        downloadCustomSvg();
-    });
-
-    function loadLogo(url) {
-        previewContainer.innerHTML = '<div class="loading-spinner" style="color: #003366;">Loading...</div>';
-
-        fetch(url)
-            .then(response => response.text())
-            .then(svgText => {
-                currentSvgContent = svgText;
-                // Inject SVG
-                previewContainer.innerHTML = svgText;
-
-                // Ensure SVG scales
-                const svg = previewContainer.querySelector('svg');
-                if (svg) {
-                    svg.style.width = '100%';
-                    svg.style.height = '100%';
-                    svg.style.maxHeight = '300px';
-
-                    // Apply current color immediately
-                    applyColorToSvg(currentColor);
-                }
-            })
-            .catch(err => {
-                console.error('Error loading SVG:', err);
-                previewContainer.innerHTML = '<p style="color: red;">Error loading logo.</p>';
-            });
-    }
-
-    function updateColor(color) {
-        currentColor = color;
-        applyColorToSvg(color);
-    }
-
-    function applyColorToSvg(color) {
-        const svg = previewContainer.querySelector('svg');
-        if (!svg) return;
-
-        // Target paths that likely form the logo shape
-        // In the provided SVGs, paths have fill attributes. 
-        // We want to override fill for paths that are not "none" or "transparent"
-        const paths = svg.querySelectorAll('path, circle, rect, polygon');
-
-        paths.forEach(path => {
-            const fill = path.getAttribute('fill');
-            // Simple heuristic: if it has a fill and it's not none/white (unless we want to recolor white too), change it.
-            // The provided SVGs seem to use black (#000000) for the main shape.
-            if (fill && fill !== 'none') {
-                path.setAttribute('fill', color);
-                path.style.fill = color; // Force style override
-            }
-        });
-    }
-
-    function downloadCustomSvg() {
-        const svg = previewContainer.querySelector('svg');
-        if (!svg) return;
-
-        // Serialize the current SVG state (with new colors)
-        const serializer = new XMLSerializer();
-        let source = serializer.serializeToString(svg);
-
-        // Add name spaces.
-        if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
-            source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
-        }
-        if (!source.match(/^<svg[^>]+xmlns:xlink="http\:\/\/www\.w3\.org\/1999\/xlink"/)) {
-            source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
-        }
-
-        // Add xml declaration
-        source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
-
-        // Convert to blob and download
-        const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
-
-        const downloadLink = document.createElement("a");
-        downloadLink.href = url;
-        downloadLink.download = `eroica-logo-custom-${Date.now()}.svg`;
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
-    }
-}
-
-// Initialize Logo Studio
+// Initialize Mesa Logo Studio
 document.addEventListener('DOMContentLoaded', function () {
-    initLogoStudio();
     initMesaLogoStudio();
 });
 
@@ -1097,30 +976,156 @@ function initMesaLogoStudio() {
         applyMesaColor(color);
     }
 
-    // Apply color to SVG elements
+    // Apply color to SVG elements - WITH RASTER IMAGE DETECTION
     function applyMesaColor(color) {
         const svg = previewContainer.querySelector('svg');
         if (!svg) return;
 
-        // Target all fill elements (paths, circles, rects, polygons, etc.)
-        const elements = svg.querySelectorAll('path, circle, rect, polygon, ellipse, line, polyline');
+        // DETECT RASTER IMAGES (embedded PNG/JPG in SVG)
+        const imageElements = svg.querySelectorAll('image[*|href^="data:image"]');
+        const hasRasterImage = imageElements.length > 0;
+
+        if (hasRasterImage) {
+            // This is a raster image embedded in SVG - cannot be recolored properly
+            showRasterWarning();
+            return; // Don't attempt colorization
+        }
+
+        // STEP 1: PURGE ALL STYLES AND CLASSES
+        const styleTags = svg.querySelectorAll('style');
+        styleTags.forEach(tag => tag.remove());
+
+        const allElements = svg.querySelectorAll('*');
         
-        elements.forEach(el => {
-            const fill = el.getAttribute('fill');
-            const stroke = el.getAttribute('stroke');
-            
-            // Change fill if it exists and is not 'none'
-            if (fill && fill !== 'none') {
-                el.setAttribute('fill', color);
-                el.style.fill = color;
+        // Analyze elements BEFORE stripping attributes to decide strategy
+        const elementsToColor = [];
+
+        allElements.forEach(el => {
+            const tagName = el.tagName.toLowerCase();
+            if (tagName === 'svg' || tagName === 'defs' || tagName === 'clippath' || tagName === 'mask' || tagName === 'g') return;
+
+            const isShape = (
+                tagName === 'path' || tagName === 'circle' || tagName === 'rect' || 
+                tagName === 'polygon' || tagName === 'ellipse' || tagName === 'text' || 
+                tagName === 'tspan' || tagName === 'line' || tagName === 'polyline'
+            );
+        
+            if (isShape) {
+                // Determine if it's a STROKE element or FILL element
+                const currentFill = el.getAttribute('fill');
+                const currentStroke = el.getAttribute('stroke');
+                const style = el.getAttribute('style') || '';
+                
+                let mode = 'fill'; // Default
+                
+                // Heuristic: If it has stroke and (no fill or fill=none), it's a stroke element
+                if ( (currentStroke && currentStroke !== 'none') && (!currentFill || currentFill === 'none') ) {
+                    mode = 'stroke';
+                }
+                // Check inline style too
+                if (style.includes('stroke:') && (style.includes('fill:none') || style.includes('fill: none'))) {
+                    mode = 'stroke';
+                }
+                
+                elementsToColor.push({ element: el, mode: mode });
             }
             
-            // Change stroke if it exists and is not 'none'
-            if (stroke && stroke !== 'none') {
-                el.setAttribute('stroke', color);
-                el.style.stroke = color;
+            // Handle gradients
+            if (tagName === 'stop') {
+                elementsToColor.push({ element: el, mode: 'stop' });
             }
         });
+
+        // Hide any existing warning
+        hideRasterWarning();
+
+        // STEP 2: STRIP ATTRIBUTES
+        allElements.forEach(el => {
+            el.removeAttribute('class');
+            el.removeAttribute('id');
+            el.removeAttribute('style');
+        });
+
+        // STEP 3: APPLY NEW COLORS
+        elementsToColor.forEach(item => {
+            const el = item.element;
+            
+            if (item.mode === 'stroke') {
+                el.setAttribute('stroke', color);
+                el.style.stroke = color;
+                el.setAttribute('fill', 'none');
+                el.style.fill = 'none';
+                el.setAttribute('stroke-width', el.getAttribute('stroke-width') || '2');
+            } else if (item.mode === 'stop') {
+                el.setAttribute('stop-color', color);
+                el.style.stopColor = color;
+            } else {
+                // Fill mode
+                el.setAttribute('fill', color);
+                el.style.fill = color;
+                el.setAttribute('stroke', 'none');
+                el.style.stroke = 'none';
+            }
+        });
+        
+        // STEP 4: GLOBAL OVERRIDE WITH CSS
+        const newStyle = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+        newStyle.textContent = `
+            [fill="${color}"] { fill: ${color} !important; }
+            [stroke="${color}"] { stroke: ${color} !important; }
+        `;
+        svg.insertBefore(newStyle, svg.firstChild);
+    }
+
+    // Show warning for raster images
+    function showRasterWarning() {
+        let warning = document.getElementById('mesa-raster-warning');
+        if (!warning) {
+            warning = document.createElement('div');
+            warning.id = 'mesa-raster-warning';
+            warning.style.cssText = `
+                background: #fff3cd;
+                border: 2px solid #ffc107;
+                border-radius: 8px;
+                padding: 1.5rem;
+                margin: 1rem 0;
+                color: #856404;
+                text-align: center;
+            `;
+            warning.innerHTML = `
+                <h4 style="margin: 0 0 0.5rem 0; color: #856404;">⚠️ Raster Image Detected</h4>
+                <p style="margin: 0 0 1rem 0; font-size: 0.95rem;">
+                    This logo contains a <strong>raster (PNG/JPG) image</strong> embedded in the SVG container, 
+                    which cannot be recolored dynamically.
+                </p>
+                <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">
+                    <strong>Solution:</strong> Please export this logo as a true vector SVG from your design software 
+                    (Illustrator, Figma, etc.) with "Convert to Paths" enabled.
+                </p>
+            `;
+            previewContainer.parentElement.insertBefore(warning, previewContainer);
+        }
+        warning.style.display = 'block';
+        
+        // Disable color controls
+        colorSwatches.forEach(s => s.style.opacity = '0.3');
+        colorPicker.disabled = true;
+        downloadSvgBtn.disabled = true;
+        downloadPngBtn.disabled = true;
+    }
+
+    // Hide warning and re-enable controls
+    function hideRasterWarning() {
+        const warning = document.getElementById('mesa-raster-warning');
+        if (warning) {
+            warning.style.display = 'none';
+        }
+        
+        // Re-enable color controls
+        colorSwatches.forEach(s => s.style.opacity = '1');
+        colorPicker.disabled = false;
+        downloadSvgBtn.disabled = false;
+        downloadPngBtn.disabled = false;
     }
 
     // Download customized SVG
