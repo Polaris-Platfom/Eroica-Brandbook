@@ -376,6 +376,42 @@ const patternGenerators = {
     }
 };
 
+// Initialize Static Pattern Previews
+function initPatternPreviews() {
+    const previewMap = [
+        { id: 'pattern-1', generator: 'wovenGrid' },
+        { id: 'pattern-2', generator: 'bloom' },
+        { id: 'pattern-3', generator: 'flowingWaves' },
+        { id: 'pattern-4', generator: 'symphonicRise' },
+        { id: 'pattern-5', generator: 'interwoven' },
+        { id: 'pattern-6', generator: 'spirals' },
+        { id: 'pattern-7', generator: 'pulse' },
+        { id: 'pattern-8', generator: 'momentum' }
+    ];
+
+    previewMap.forEach(item => {
+        const element = document.getElementById(item.id);
+        if (!element) return;
+
+        // Clear existing background image via JS and set base color
+        element.style.backgroundImage = 'none';
+        element.style.backgroundColor = '#F5F1E8'; // Beige to match brand
+
+        const two = new Two({
+            width: element.offsetWidth,
+            height: element.offsetHeight,
+            type: Two.Types.svg // Explicitly use SVG for crisp rendering
+        }).appendTo(element);
+
+        // Generate the pattern
+        if (patternGenerators[item.generator]) {
+            patternGenerators[item.generator](two);
+        }
+        
+        two.update();
+    });
+}
+
 // Initialize Two.js for pattern canvas (dynamic pattern generation)
 let currentPatternIndex = 0;
 const patternNames = Object.keys(patternGenerators);
@@ -613,11 +649,56 @@ function initEmailTemplate() {
     }
 }
 
+// Dynamic Logo Animation
+function initDynamicLogo() {
+    const suffixElement = document.getElementById('logo-suffix');
+    if (!suffixElement) return;
+
+    const subBrands = [
+        { text: 'PLATFORM', color: colors.deepCivicBlue },
+        { text: 'LABS', color: colors.labsBlue || '#2E5BFF' }, // Fallback if colors.labsBlue isn't defined
+        { text: 'FOUNDATION', color: colors.foundationCrimson || '#B22222' }, // Fallback
+        { text: '', color: 'transparent' } // Empty state (just Eroica)
+    ];
+
+    let currentIndex = 0;
+
+    function updateLogo() {
+        // Fade out
+        suffixElement.style.opacity = '0';
+        suffixElement.style.transform = 'translateX(-20px)';
+
+        setTimeout(() => {
+            // Update content
+            const brand = subBrands[currentIndex];
+            suffixElement.textContent = brand.text;
+            suffixElement.style.color = brand.color;
+
+            // Fade in
+            if (brand.text !== '') {
+                suffixElement.style.opacity = '1';
+                suffixElement.style.transform = 'translateX(0)';
+            }
+            
+            // Move to next index
+            currentIndex = (currentIndex + 1) % subBrands.length;
+
+        }, 800); // Wait for fade out
+    }
+
+    // Initial delay then start loop
+    setTimeout(() => {
+        updateLogo();
+        setInterval(updateLogo, 4000); // Change every 4 seconds
+    }, 1000);
+}
+
 // Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize Two.js canvases
     initHeroCanvas();
     initPatternCanvas();
+    initPatternPreviews();
     
     // Initialize smooth scrolling
     initSmoothScroll();
@@ -628,8 +709,82 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize Email Template
     initEmailTemplate();
 
+    // Initialize Dynamic Logo
+    initDynamicLogo();
+
     // Log welcome message
     console.log('%c⚡ Eroica Brand Book', 'font-size: 20px; font-weight: bold; color: #003366;');
     console.log('%cThe Democratic Symphony', 'font-size: 14px; color: #C5A059;');
     console.log('%c' + patternNames.length + ' dynamic patterns available', 'font-size: 12px; color: #666;');
 });
+
+// --- Download Helpers ---
+
+window.downloadAsset = function(url, filename) {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
+
+window.downloadAssetAsPng = function(url, filename) {
+    const img = new Image();
+    img.onload = function() {
+        const canvas = document.createElement('canvas');
+        // Set high resolution
+        const scale = 4; 
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+        const ctx = canvas.getContext('2d');
+        ctx.scale(scale, scale);
+        ctx.drawImage(img, 0, 0);
+        
+        canvas.toBlob(function(blob) {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }, 'image/png');
+    };
+    // Prevent caching issues with fetch if needed, though local relative path usually fine
+    img.src = url; 
+};
+
+window.downloadWordmark = function(format) {
+    // Create SVG string for wordmark
+    const svgString = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100" width="300" height="100">
+        <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="'Didot', 'Bodoni MT', 'Playfair Display', serif" font-size="60" font-weight="bold" fill="#000000">Eroica</text>
+    </svg>`;
+    
+    if (format === 'svg') {
+        const blob = new Blob([svgString], {type: 'image/svg+xml'});
+        const url = URL.createObjectURL(blob);
+        window.downloadAsset(url, 'eroica-wordmark.svg');
+        URL.revokeObjectURL(url);
+    } else if (format === 'png') {
+        const img = new Image();
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const scale = 4;
+            canvas.width = 300 * scale;
+            canvas.height = 100 * scale;
+            const ctx = canvas.getContext('2d');
+            ctx.scale(scale, scale);
+            ctx.drawImage(img, 0, 0);
+            
+            canvas.toBlob(function(blob) {
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'eroica-wordmark.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }, 'image/png');
+        };
+        img.src = 'data:image/svg+xml;base64,' + btoa(svgString);
+    }
+};

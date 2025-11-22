@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eroica | Brand Book</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/logo-style.css">
     <!-- Using Two.js from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/two.js/0.8.14/two.min.js"></script>
 </head>
@@ -77,12 +78,94 @@
             <h2 class="section-title light-text">Logo System</h2>
 
             <div class="logo-showcase">
-                <div class="logo-main">
-                    <img src="assets/logo.svg" alt="Eroica Master Logo" class="logo-display-large">
+                <!-- Dynamic Logo Concept -->
+                <div class="dynamic-logo-section">
+                    <h3 class="gold-text" style="margin-bottom: 2rem;">Primary Identity: The Wordmark</h3>
+                    <p class="light-text section-intro-text">The primary representation of the brand is the clean, typographic "Eroica" wordmark. The symbol is reserved for specific applications like app icons or decorative patterns.</p>
+                    
+                    <div id="dynamic-logo-container">
+                        <!-- Animated Logo will be injected here by JS -->
+                        <div class="logo-lockup">
+                            <span class="logo-root">Eroica</span>
+                            <span id="logo-suffix"></span>
+                        </div>
+                    </div>
+                    <p class="light-text logo-caption">Dynamic web behavior: Sub-brands appear organically when needed.</p>
+                </div>
+
+                <div class="logo-usage-guidelines">
+                    <div class="guideline-block">
+                        <h4 class="gold-text" style="margin-bottom: 1rem;">When to use the Wordmark</h4>
+                        <p class="light-text" style="opacity: 0.9;">The text-only "Eroica" logo is the primary identifier. Use it for:</p>
+                        <ul class="light-text" style="margin-top: 1rem; list-style-type: circle; padding-left: 1.5rem; line-height: 1.8;">
+                            <li>Website headers and navigation</li>
+                            <li>Official documents and letterheads</li>
+                            <li>Marketing materials where clarity is key</li>
+                            <li>Brand partnerships</li>
+                        </ul>
+                    </div>
+                    <div class="guideline-block">
+                        <h4 class="gold-text" style="margin-bottom: 1rem;">When to use the Symbol</h4>
+                        <p class="light-text" style="opacity: 0.9;">The graphical symbol is secondary. Use it only for:</p>
+                        <ul class="light-text" style="margin-top: 1rem; list-style-type: circle; padding-left: 1.5rem; line-height: 1.8;">
+                            <li>App icons and favicons</li>
+                            <li>Profile pictures (social media)</li>
+                            <li>Decorative patterns or watermarks</li>
+                            <li>When the wordmark is too small to be legible</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Logo Downloads -->
+                <div class="logo-downloads" style="margin-top: 5rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 4rem;">
+                    <h3 class="gold-text" style="text-align: center; margin-bottom: 3rem;">Logo Downloads</h3>
+                    
+                    <div class="downloads-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                        <!-- Standard Vertical Lockup -->
+                        <div class="download-card" style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 4px; text-align: center;">
+                            <div class="download-preview" style="height: 180px; display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 4px; margin-bottom: 1.5rem; padding: 1rem;">
+                                <img src="assets/logo.svg" alt="Primary Logo Vertical" id="dl-preview-1" style="max-height: 100%; max-width: 100%;">
+                            </div>
+                            <h4 class="light-text" style="font-size: 1rem; margin-bottom: 0.5rem;">Primary Lockup</h4>
+                            <p class="light-text" style="font-size: 0.8rem; opacity: 0.7; margin-bottom: 1.5rem;">Symbol + Wordmark (Vertical)</p>
+                            <div class="download-actions" style="display: flex; gap: 0.5rem; justify-content: center;">
+                                <button onclick="downloadAsset('assets/logo.svg', 'eroica-logo-vertical.svg')" class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">SVG</button>
+                                <button onclick="downloadAssetAsPng('assets/logo.svg', 'eroica-logo-vertical.png')" class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">PNG</button>
+                            </div>
+                        </div>
+
+                        <!-- Wordmark Only -->
+                        <div class="download-card" style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 4px; text-align: center;">
+                            <div class="download-preview" style="height: 180px; display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 4px; margin-bottom: 1.5rem; padding: 1rem;">
+                                <!-- Constructing wordmark view for preview -->
+                                <span style="font-family: 'Didot', 'Bodoni MT', serif; font-size: 36px; color: #000;">Eroica</span>
+                            </div>
+                            <h4 class="light-text" style="font-size: 1rem; margin-bottom: 0.5rem;">Wordmark Only</h4>
+                            <p class="light-text" style="font-size: 0.8rem; opacity: 0.7; margin-bottom: 1.5rem;">Typography Identity</p>
+                            <div class="download-actions" style="display: flex; gap: 0.5rem; justify-content: center;">
+                                <!-- Creating a data URI for the wordmark SVG on the fly or just link if it existed. I will create a JS function to generate it. -->
+                                <button onclick="downloadWordmark('svg')" class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">SVG</button>
+                                <button onclick="downloadWordmark('png')" class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">PNG</button>
+                            </div>
+                        </div>
+
+                        <!-- Symbol Only -->
+                        <div class="download-card" style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 4px; text-align: center;">
+                            <div class="download-preview" style="height: 180px; display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 4px; margin-bottom: 1.5rem; padding: 1rem;">
+                                <img src="assets/logo-symbol.svg" alt="Symbol Only" style="max-height: 100%; max-width: 100%;">
+                            </div>
+                            <h4 class="light-text" style="font-size: 1rem; margin-bottom: 0.5rem;">Symbol Only</h4>
+                            <p class="light-text" style="font-size: 0.8rem; opacity: 0.7; margin-bottom: 1.5rem;">Icon & Social Media</p>
+                            <div class="download-actions" style="display: flex; gap: 0.5rem; justify-content: center;">
+                                <button onclick="downloadAsset('assets/logo-symbol.svg', 'eroica-symbol.svg')" class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">SVG</button>
+                                <button onclick="downloadAssetAsPng('assets/logo-symbol.svg', 'eroica-symbol.png')" class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">PNG</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="logo-construction">
-                    <h3 class="gold-text" style="text-align: center; margin-bottom: 2rem;">Logo Construction</h3>
+                    <h3 class="gold-text" style="text-align: center; margin-bottom: 2rem;">Symbol Construction (Secondary)</h3>
                     <img src="assets/logo-construction.png" alt="Logo Construction Grid" class="full-width-image">
                 </div>
 
@@ -425,7 +508,6 @@
 
             <div class="pattern-interactive">
                 <h3 class="subsection-title">Dynamic Pattern Generation</h3>
-                <p class="section-intro">Interactive pattern generator cycling through 10 different symphonic compositions. Each click reveals a new variation.</p>
                 <div id="pattern-canvas"></div>
                 <div class="controls">
                     <button id="regen-pattern" class="btn-primary">Next Pattern Composition</button>

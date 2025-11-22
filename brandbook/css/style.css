@@ -688,14 +688,15 @@ a {
 .pattern-preview {
     width: 100%;
     height: 250px;
-    background-size: cover;
-    background-position: center;
+    /* background-size: cover;  Removed for Two.js integration */
+    /* background-position: center; Removed for Two.js integration */
     border: 1px solid #eee;
     margin-bottom: 1rem;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    overflow: hidden;
 }
 
-/* Pattern backgrounds - using SVG patterns */
+/* Pattern backgrounds - Disabled in favor of dynamic SVG generation via Two.js
 #pattern-1 { background-image: url('../assets/patterns/pattern-1.svg'); }
 #pattern-2 { background-image: url('../assets/patterns/pattern-2.svg'); }
 #pattern-3 { background-image: url('../assets/patterns/pattern-3.svg'); }
@@ -704,6 +705,7 @@ a {
 #pattern-6 { background-image: url('../assets/patterns/pattern-6.svg'); }
 #pattern-7 { background-image: url('../assets/patterns/pattern-7.svg'); }
 #pattern-8 { background-image: url('../assets/patterns/pattern-8.svg'); }
+*/
 
 .pattern-item h4 {
     font-size: 1.1rem;
