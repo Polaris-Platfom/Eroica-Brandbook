@@ -2,6 +2,14 @@
 
 Este documento explica cómo desplegar el Eroica Brandbook en Digital Ocean App Platform.
 
+## 🌐 Aplicación en Producción
+
+**URL**: https://eroica-brandbook-oftv3.ondigitalocean.app
+
+**Estado**: ✅ Desplegada y funcionando
+
+**Última actualización**: Noviembre 22, 2025
+
 ## 📋 Requisitos Previos
 
 1. Cuenta de Digital Ocean activa
@@ -187,4 +195,5 @@ cat brandbook/index.html
 
 **Última actualización**: Noviembre 2025
 **Mantenido por**: Eroica Development Team
+
 
