@@ -1,0 +1,41 @@
+name: eroica-brandbook
+# Digital Ocean App Platform Configuration
+# Static site configuration for Eroica Brandbook
+
+static_sites:
+  - name: brandbook
+    # GitHub repository configuration
+    github:
+      repo: Polaris-Platfom/Eroica-Brandbook
+      branch: master
+      deploy_on_push: true
+    
+    # Build configuration
+    build_command: echo "No build required - static site"
+    
+    # Source directory (where the static files are located)
+    source_dir: /brandbook
+    
+    # Output directory
+    output_dir: /brandbook
+    
+    # Routes configuration
+    routes:
+      - path: /
+    
+    # Environment configuration
+    envs:
+      - key: NODE_ENV
+        value: production
+    
+    # CORS headers (if needed for assets)
+    cors:
+      allow_origins:
+        - prefix: https://
+      allow_methods:
+        - GET
+        - OPTIONS
+        - POST
+      allow_headers:
+        - Content-Type
+

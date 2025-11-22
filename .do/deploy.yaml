@@ -1,0 +1,22 @@
+spec:
+  name: eroica-brandbook
+  region: nyc
+  
+  static_sites:
+  - name: brandbook
+    git:
+      repo_clone_url: https://github.com/Polaris-Platfom/Eroica-Brandbook.git
+      branch: master
+    source_dir: /brandbook
+    output_dir: /brandbook
+    index_document: index.html
+    error_document: index.html
+    routes:
+    - path: /
+    environment_slug: html
+    
+  # Optional: Add alerts for monitoring
+  alerts:
+  - rule: DEPLOYMENT_FAILED
+  - rule: DOMAIN_FAILED
+
