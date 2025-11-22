@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesa Logos Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #003366;
+        }
+        .info-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+        }
+        .success-box {
+            background: #d4edda;
+            border: 1px solid #28a745;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .logo-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .logo-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+        }
+        .logo-card h3 {
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+            color: #003366;
+        }
+        .controls {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .color-picker-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .color-swatch {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid #ddd;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .color-swatch:hover {
+            transform: scale(1.1);
+            border-color: #C5A059;
+        }
+        code {
+            background: #f0f0f0;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Mesa Logo Family - Test Page</h1>
+    
+    <div class="info-box">
+        <strong>⚠️ Important:</strong> If logos don't load or colorization doesn't work, please run a local web server:
+        <br><br>
+        <code>cd /Users/005ote/Documents/Github-Others/Eroica-Brandbook/brandbook && python3 -m http.server 8080</code>
+        <br><br>
+        Then open: <strong>http://localhost:8080/test-mesa-logos.html</strong>
+    </div>
+
+    <div class="controls">
+        <h2>Color Selection</h2>
+        <p>Click a color to apply it to all logos below:</p>
+        <div class="color-picker-group">
+            <button class="color-swatch" style="background: #003366;" onclick="changeAllColors('#003366')" title="Deep Civic Blue"></button>
+            <button class="color-swatch" style="background: #C5A059;" onclick="changeAllColors('#C5A059')" title="Heroic Gold"></button>
+            <button class="color-swatch" style="background: #2E5BFF;" onclick="changeAllColors('#2E5BFF')" title="Labs Blue"></button>
+            <button class="color-swatch" style="background: #B22222;" onclick="changeAllColors('#B22222')" title="Foundation Crimson"></button>
+            <button class="color-swatch" style="background: #FFFFFF; border-color: #333;" onclick="changeAllColors('#FFFFFF')" title="White"></button>
+            <button class="color-swatch" style="background: #2C2C2C;" onclick="changeAllColors('#2C2C2C')" title="Charcoal"></button>
+            <input type="color" id="customColor" value="#003366" style="width: 50px; height: 50px; border: none; cursor: pointer;" onchange="changeAllColors(this.value)">
+        </div>
+        <p id="status" style="margin-top: 1rem; font-weight: bold; color: #003366;"></p>
+    </div>
+
+    <h2>All 12 Mesa Logos</h2>
+    <div class="container" id="logoContainer">
+        <!-- Logos will be loaded here -->
+    </div>
+
+    <script>
+        const logos = Array.from({length: 12}, (_, i) => i + 1);
+        const container = document.getElementById('logoContainer');
+        const status = document.getElementById('status');
+
+        // Load all logos
+        logos.forEach(num => {
+            const card = document.createElement('div');
+            card.className = 'logo-card';
+            card.innerHTML = `
+                <h3>Logo ${num}</h3>
+                <div id="logo-${num}" style="min-height: 150px; display: flex; align-items: center; justify-content: center;">
+                    <span style="color: #999;">Loading...</span>
+                </div>
+            `;
+            container.appendChild(card);
+            
+            loadLogoSVG(num);
+        });
+
+        function loadLogoSVG(logoNumber) {
+            const container = document.getElementById(`logo-${logoNumber}`);
+            const url = `assets/mesa-logos/${logoNumber}.svg`;
+            
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.onload = function() {
+                if (xhr.status === 200 || xhr.status === 0) {
+                    container.innerHTML = xhr.responseText;
+                    const svg = container.querySelector('svg');
+                    if (svg) {
+                        svg.style.width = '100%';
+                        svg.style.height = '150px';
+                        status.textContent = `✓ Logos loaded successfully! Click a color to test.`;
+                        status.style.color = '#28a745';
+                    }
+                } else {
+                    container.innerHTML = `<span style="color: red; font-size: 0.8rem;">Error ${xhr.status}</span>`;
+                }
+            };
+            xhr.onerror = function() {
+                container.innerHTML = `<img src="${url}" style="width: 100%; height: 150px; object-fit: contain;" alt="Logo ${logoNumber}">`;
+                status.textContent = `⚠️ XHR failed. Using fallback img. Color change disabled. Please use web server.`;
+                status.style.color = '#ff9800';
+            };
+            xhr.send();
+        }
+
+        function changeAllColors(color) {
+            let successCount = 0;
+            
+            logos.forEach(num => {
+                const container = document.getElementById(`logo-${num}`);
+                const svg = container.querySelector('svg');
+                
+                if (svg) {
+                    // Apply color to all fill and stroke elements
+                    const elements = svg.querySelectorAll('path, circle, rect, polygon, ellipse, line, polyline');
+                    
+                    elements.forEach(el => {
+                        const fill = el.getAttribute('fill');
+                        const stroke = el.getAttribute('stroke');
+                        
+                        if (fill && fill !== 'none') {
+                            el.setAttribute('fill', color);
+                            el.style.fill = color;
+                        }
+                        
+                        if (stroke && stroke !== 'none') {
+                            el.setAttribute('stroke', color);
+                            el.style.stroke = color;
+                        }
+                    });
+                    successCount++;
+                }
+            });
+            
+            if (successCount > 0) {
+                status.textContent = `✓ Color applied to ${successCount} logo(s): ${color}`;
+                status.style.color = '#28a745';
+            } else {
+                status.textContent = `⚠️ Could not apply color. Please reload with web server.`;
+                status.style.color = '#dc3545';
+            }
+        }
+
+        // Apply default color after a short delay
+        setTimeout(() => {
+            changeAllColors('#003366');
+        }, 1000);
+    </script>
+</body>
+</html>
+

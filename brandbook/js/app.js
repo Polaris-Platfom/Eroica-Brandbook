@@ -30,15 +30,15 @@ function initHeroCanvas() {
         for (let j = 0; j <= numPoints; j++) {
             points.push(new Two.Anchor(0, 0));
         }
-        
+
         const line = two.makeCurve(points, true);
         line.stroke = i % 2 === 0 ? colors.deepCivicBlue : colors.heroicGold;
         line.linewidth = 1.5;
         line.noFill();
         line.opacity = 0.15;
-        
-        lines.push({ 
-            curve: line, 
+
+        lines.push({
+            curve: line,
             phase: Math.random() * Math.PI * 2,
             speed: 0.002 + Math.random() * 0.002,
             amplitude: 30 + Math.random() * 40,
@@ -48,19 +48,19 @@ function initHeroCanvas() {
 
     // Animate
     let time = 0;
-    two.bind('update', function() {
+    two.bind('update', function () {
         time += 1;
-        
+
         lines.forEach((item, index) => {
             const curve = item.curve;
             const yBase = item.yBase;
-            
+
             // Animate the curve points
             curve.vertices.forEach((vertex, i) => {
                 const x = (i / (curve.vertices.length - 1)) * two.width;
                 const wave = Math.sin(x * 0.005 + time * item.speed + item.phase);
                 const wave2 = Math.cos(x * 0.01 - time * item.speed * 0.5);
-                
+
                 vertex.x = x;
                 vertex.y = yBase + wave * item.amplitude + wave2 * 20;
             });
@@ -71,7 +71,7 @@ function initHeroCanvas() {
 // Pattern Generators - Inspired by the 8 brand patterns
 const patternGenerators = {
     // 1. Woven Civic Grid (Stylized)
-    wovenGrid: function(two) {
+    wovenGrid: function (two) {
         const gridSize = 50;
         const rows = Math.ceil(two.height / gridSize) + 1;
         const cols = Math.ceil(two.width / gridSize) + 1;
@@ -84,9 +84,9 @@ const patternGenerators = {
 
                 if (Math.random() > 0.8) continue; // Create negative space
 
-                const cx = x + gridSize/2;
-                const cy = y + gridSize/2;
-                
+                const cx = x + gridSize / 2;
+                const cy = y + gridSize / 2;
+
                 // Create stylized weave
                 const curve = two.makeCurve(
                     x, cy,
@@ -94,12 +94,12 @@ const patternGenerators = {
                     x + gridSize, cy,
                     true
                 );
-                
+
                 curve.noFill();
                 curve.stroke = isCheckerboard ? colors.heroicGold : colors.deepCivicBlue;
                 curve.linewidth = 2;
                 curve.opacity = 0.5;
-                
+
                 if (Math.random() > 0.5) {
                     const vCurve = two.makeCurve(
                         cx, y,
@@ -117,21 +117,21 @@ const patternGenerators = {
     },
 
     // 2. Democratic Bloom (Stylized)
-    bloom: function(two) {
+    bloom: function (two) {
         const numBlooms = 15;
-        
+
         for (let i = 0; i < numBlooms; i++) {
             const cx = Math.random() * two.width;
             const cy = Math.random() * two.height;
             const scale = 0.5 + Math.random();
             const numPetals = 8 + Math.floor(Math.random() * 4);
-            
+
             const group = two.makeGroup();
-            
+
             for (let j = 0; j < numPetals; j++) {
                 const angle = (Math.PI * 2 * j) / numPetals;
                 const length = 40 * scale;
-                
+
                 const petal = two.makeCurve(
                     0, 0,
                     Math.cos(angle - 0.2) * length * 0.5, Math.sin(angle - 0.2) * length * 0.5,
@@ -140,23 +140,23 @@ const patternGenerators = {
                     0, 0,
                     true
                 );
-                
+
                 petal.fill = "none";
                 petal.stroke = Math.random() > 0.5 ? colors.heroicGold : colors.deepCivicBlue;
                 petal.linewidth = 1.5;
                 petal.opacity = 0.6;
                 group.add(petal);
             }
-            
+
             group.translation.set(cx, cy);
             group.rotation = Math.random() * Math.PI;
         }
     },
 
     // 3. Flowing Harmony (Waves - Stylized)
-    flowingWaves: function(two) {
+    flowingWaves: function (two) {
         const numWaves = 20;
-        
+
         for (let i = 0; i < numWaves; i++) {
             const yBase = (two.height / numWaves) * i;
             const points = [];
@@ -164,14 +164,14 @@ const patternGenerators = {
             const amplitude = 20 + Math.random() * 30;
             const freq = 2 + Math.random() * 2;
             const phase = Math.random() * Math.PI * 2;
-            
+
             for (let j = 0; j <= numPoints; j++) {
                 const x = (two.width / numPoints) * j;
                 const t = j / numPoints;
                 const y = yBase + Math.sin(t * Math.PI * freq + phase) * amplitude * (1 - Math.abs(0.5 - t)); // Taper edges
                 points.push(new Two.Anchor(x, y));
             }
-            
+
             const wave = two.makeCurve(points, true);
             wave.noFill();
             wave.stroke = Math.random() > 0.6 ? colors.heroicGold : colors.deepCivicBlue;
@@ -181,21 +181,21 @@ const patternGenerators = {
     },
 
     // 4. Symphonic Rise (Diagonal - Stylized)
-    symphonicRise: function(two) {
+    symphonicRise: function (two) {
         const numLines = 25;
-        
+
         for (let i = 0; i < numLines; i++) {
             const xStart = -100 + Math.random() * two.width;
             const points = [];
             const numPoints = 20;
-            
+
             for (let j = 0; j <= numPoints; j++) {
                 const t = j / numPoints;
                 const x = xStart + t * 400 + Math.sin(t * 10) * 20;
                 const y = two.height - t * two.height * 1.2 + Math.cos(t * 5) * 30;
                 points.push(new Two.Anchor(x, y));
             }
-            
+
             const line = two.makeCurve(points, true);
             line.noFill();
             line.stroke = Math.random() > 0.7 ? colors.heroicGold : colors.deepCivicBlue;
@@ -205,14 +205,14 @@ const patternGenerators = {
     },
 
     // 5. Interwoven Voices (Stylized)
-    interwoven: function(two) {
+    interwoven: function (two) {
         const numVoices = 12;
-        
+
         for (let i = 0; i < numVoices; i++) {
             const points = [];
             const numPoints = 30;
             const isHorizontal = Math.random() > 0.5;
-            
+
             if (isHorizontal) {
                 const yBase = Math.random() * two.height;
                 for (let j = 0; j <= numPoints; j++) {
@@ -228,7 +228,7 @@ const patternGenerators = {
                     points.push(new Two.Anchor(x, y));
                 }
             }
-            
+
             const voice = two.makeCurve(points, true);
             voice.noFill();
             voice.stroke = Math.random() > 0.5 ? colors.deepCivicBlue : colors.heroicGold;
@@ -238,16 +238,16 @@ const patternGenerators = {
     },
 
     // 6. Spiral Participation (Stylized)
-    spirals: function(two) {
+    spirals: function (two) {
         const numSpirals = 8;
-        
+
         for (let i = 0; i < numSpirals; i++) {
             const cx = Math.random() * two.width;
             const cy = Math.random() * two.height;
             const maxR = 50 + Math.random() * 100;
             const points = [];
             const numPoints = 100;
-            
+
             for (let j = 0; j <= numPoints; j++) {
                 const t = j / numPoints;
                 const angle = t * Math.PI * 8;
@@ -256,13 +256,13 @@ const patternGenerators = {
                 const y = cy + Math.sin(angle) * r;
                 points.push(new Two.Anchor(x, y));
             }
-            
+
             const spiral = two.makeCurve(points, true);
             spiral.noFill();
             spiral.stroke = colors.deepCivicBlue;
             spiral.linewidth = 1.5;
             spiral.opacity = 0.4;
-            
+
             // Add gold accent
             if (Math.random() > 0.6) {
                 const accent = two.makeCircle(cx, cy, 4);
@@ -273,23 +273,23 @@ const patternGenerators = {
     },
 
     // 7. Collective Pulse (Stylized)
-    pulse: function(two) {
+    pulse: function (two) {
         const numLines = 30;
         const cx = two.width / 2;
-        
+
         for (let i = 0; i < numLines; i++) {
             const x = (two.width / numLines) * i;
             const points = [];
             const numPoints = 20;
-            const distFromCenter = Math.abs(x - cx) / (two.width/2);
+            const distFromCenter = Math.abs(x - cx) / (two.width / 2);
             const amplitude = 50 * (1 - distFromCenter); // More movement in center
-            
+
             for (let j = 0; j <= numPoints; j++) {
                 const y = (two.height / numPoints) * j;
                 const waveX = x + Math.sin(j * 0.5 + i * 0.2) * amplitude;
                 points.push(new Two.Anchor(waveX, y));
             }
-            
+
             const line = two.makeCurve(points, true);
             line.noFill();
             line.stroke = Math.random() > 0.8 ? colors.heroicGold : colors.deepCivicBlue;
@@ -299,14 +299,14 @@ const patternGenerators = {
     },
 
     // 8. Heroic Momentum (Stylized)
-    momentum: function(two) {
+    momentum: function (two) {
         const numShapes = 15;
-        
+
         for (let i = 0; i < numShapes; i++) {
             const x = Math.random() * two.width;
             const y = Math.random() * two.height;
             const size = 50 + Math.random() * 100;
-            
+
             const points = [
                 new Two.Anchor(x, y + size),
                 new Two.Anchor(x + size * 0.5, y + size * 0.5),
@@ -314,7 +314,7 @@ const patternGenerators = {
                 new Two.Anchor(x + size * 0.5, y - size * 0.2),
                 new Two.Anchor(x, y)
             ];
-            
+
             const shape = two.makeCurve(points, true);
             shape.noFill();
             shape.stroke = Math.random() > 0.7 ? colors.heroicGold : colors.deepCivicBlue;
@@ -325,17 +325,17 @@ const patternGenerators = {
     },
 
     // 9. Radial Symphony (Stylized)
-    radialSymphony: function(two) {
+    radialSymphony: function (two) {
         const cx = two.width / 2;
         const cy = two.height / 2;
         const numRings = 20;
-        
+
         for (let i = 0; i < numRings; i++) {
             const r = 20 + i * 15;
             const points = [];
             const numPoints = 60;
             const noise = 5 + Math.sin(i * 0.5) * 10;
-            
+
             for (let j = 0; j <= numPoints; j++) {
                 const angle = (Math.PI * 2 * j) / numPoints;
                 const radius = r + Math.sin(angle * 5) * noise;
@@ -343,29 +343,29 @@ const patternGenerators = {
                 const y = cy + Math.sin(angle) * radius;
                 points.push(new Two.Anchor(x, y));
             }
-            
+
             const ring = two.makeCurve(points, true); // Closed curve
             ring.noFill();
             ring.stroke = i % 3 === 0 ? colors.heroicGold : colors.deepCivicBlue;
             ring.linewidth = 1;
-            ring.opacity = 0.3 + (1 - i/numRings) * 0.4;
+            ring.opacity = 0.3 + (1 - i / numRings) * 0.4;
         }
     },
 
     // 10. Circular Flow (Stylized)
-    circularFlow: function(two) {
+    circularFlow: function (two) {
         const numGroups = 5;
-        
+
         for (let i = 0; i < numGroups; i++) {
             const cx = Math.random() * two.width;
             const cy = Math.random() * two.height;
             const r = 40 + Math.random() * 60;
-            
+
             for (let j = 0; j < 5; j++) {
                 const startAngle = Math.random() * Math.PI * 2;
                 const endAngle = startAngle + Math.PI + Math.random();
-                
-                const arc = two.makeArcSegment(cx, cy, r - j*5, r - j*5, startAngle, endAngle);
+
+                const arc = two.makeArcSegment(cx, cy, r - j * 5, r - j * 5, startAngle, endAngle);
                 arc.noFill();
                 arc.stroke = Math.random() > 0.5 ? colors.deepCivicBlue : colors.heroicGold;
                 arc.linewidth = 2;
@@ -407,7 +407,7 @@ function initPatternPreviews() {
         if (patternGenerators[item.generator]) {
             patternGenerators[item.generator](two);
         }
-        
+
         two.update();
     });
 }
@@ -456,7 +456,7 @@ function initPatternCanvas() {
     // Download SVG button
     const downloadSvgButton = document.getElementById('download-svg');
     if (downloadSvgButton) {
-        downloadSvgButton.addEventListener('click', function() {
+        downloadSvgButton.addEventListener('click', function () {
             downloadPatternSVG();
         });
     }
@@ -464,16 +464,16 @@ function initPatternCanvas() {
     // Download PNG button
     const downloadPngButton = document.getElementById('download-png');
     if (downloadPngButton) {
-        downloadPngButton.addEventListener('click', function() {
+        downloadPngButton.addEventListener('click', function () {
             downloadPatternPNG();
         });
     }
 
     // Handle window resize
     let resizeTimeout;
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
         clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(function() {
+        resizeTimeout = setTimeout(function () {
             patternTwo.width = patternElement.offsetWidth;
             patternTwo.height = patternElement.offsetHeight;
             patternTwo.renderer.setSize(patternTwo.width, patternTwo.height);
@@ -485,12 +485,12 @@ function initPatternCanvas() {
 // Download pattern as SVG
 function downloadPatternSVG() {
     if (!patternTwo) return;
-    
+
     const svgElement = patternTwo.renderer.domElement;
     const svgData = new XMLSerializer().serializeToString(svgElement);
     const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
     const svgUrl = URL.createObjectURL(svgBlob);
-    
+
     const downloadLink = document.createElement('a');
     downloadLink.href = svgUrl;
     downloadLink.download = `eroica-pattern-${Date.now()}.svg`;
@@ -503,51 +503,51 @@ function downloadPatternSVG() {
 // Download pattern as high-resolution PNG (4K)
 function downloadPatternPNG() {
     if (!patternTwo) return;
-    
+
     // Create a high-res version
     const scale = 4; // 4x resolution for 4K quality
     const tempDiv = document.createElement('div');
     tempDiv.style.position = 'absolute';
     tempDiv.style.left = '-9999px';
     document.body.appendChild(tempDiv);
-    
+
     const highResTwo = new Two({
         fullscreen: false,
         width: patternTwo.width * scale,
         height: patternTwo.height * scale,
         type: Two.Types.canvas
     }).appendTo(tempDiv);
-    
+
     // Set background
     const bg = highResTwo.makeRectangle(
-        highResTwo.width / 2, 
-        highResTwo.height / 2, 
-        highResTwo.width, 
+        highResTwo.width / 2,
+        highResTwo.height / 2,
+        highResTwo.width,
         highResTwo.height
     );
     bg.fill = colors.beige;
     bg.noStroke();
-    
+
     // Recreate current pattern at high resolution
     const currentPatternName = patternNames[(currentPatternIndex - 1 + patternNames.length) % patternNames.length];
-    
+
     // Scale up the pattern
     const originalWidth = patternTwo.width;
     const originalHeight = patternTwo.height;
     patternTwo.width = highResTwo.width;
     patternTwo.height = highResTwo.height;
-    
+
     patternGenerators[currentPatternName](highResTwo);
-    
+
     // Restore original dimensions
     patternTwo.width = originalWidth;
     patternTwo.height = originalHeight;
-    
+
     highResTwo.update();
-    
+
     // Convert to PNG
     const canvas = highResTwo.renderer.domElement;
-    canvas.toBlob(function(blob) {
+    canvas.toBlob(function (blob) {
         const url = URL.createObjectURL(blob);
         const downloadLink = document.createElement('a');
         downloadLink.href = url;
@@ -556,30 +556,68 @@ function downloadPatternPNG() {
         downloadLink.click();
         document.body.removeChild(downloadLink);
         URL.revokeObjectURL(url);
-        
+
         // Cleanup
         document.body.removeChild(tempDiv);
     }, 'image/png', 1.0);
 }
 
+// Mobile Navigation Toggle
+function initMobileNav() {
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    if (navToggle && navLinks) {
+        navToggle.addEventListener('click', function () {
+            this.classList.toggle('active');
+            navLinks.classList.toggle('mobile-active');
+
+            // Prevent body scroll when menu is open
+            if (navLinks.classList.contains('mobile-active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function (e) {
+            if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                navToggle.classList.remove('active');
+                navLinks.classList.remove('mobile-active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+}
+
 // Smooth scroll for navigation
 function initSmoothScroll() {
     const navLinks = document.querySelectorAll('.nav-links a');
-    
+    const navToggle = document.getElementById('navToggle');
+    const navLinksContainer = document.getElementById('navLinks');
+
     navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
             const targetSection = document.querySelector(targetId);
-            
+
             if (targetSection) {
                 const navHeight = document.querySelector('.brand-nav').offsetHeight;
                 const targetPosition = targetSection.offsetTop - navHeight;
-                
+
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'
                 });
+
+                // Close mobile menu after clicking a link
+                if (navToggle && navLinksContainer) {
+                    navToggle.classList.remove('active');
+                    navLinksContainer.classList.remove('mobile-active');
+                    document.body.style.overflow = '';
+                }
             }
         });
     });
@@ -592,7 +630,7 @@ function initScrollAnimations() {
         rootMargin: '0px 0px -50px 0px'
     };
 
-    const observer = new IntersectionObserver(function(entries) {
+    const observer = new IntersectionObserver(function (entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
@@ -613,40 +651,62 @@ function initScrollAnimations() {
 
 // Email Template Logic
 function initEmailTemplate() {
-    const emailCodeTextarea = document.getElementById('email-code');
-    const copyBtn = document.getElementById('copy-email-btn');
+    const templateSelector = document.getElementById('template-selector');
+    const previewIframe = document.getElementById('email-preview-iframe');
+    const copyButtons = document.querySelectorAll('.copy-template-btn');
 
-    if (emailCodeTextarea && copyBtn) {
-        // Try to fetch the template content
-        fetch('email-template.html')
-            .then(response => {
-                if (!response.ok) throw new Error('Network response was not ok');
-                return response.text();
-            })
-            .then(html => {
-                emailCodeTextarea.value = html;
-            })
-            .catch(err => {
-                console.warn('Failed to load email template automatically (likely due to CORS on local file system):', err);
-                emailCodeTextarea.value = '<!-- Content could not be loaded automatically due to browser security restrictions (CORS). -->\n<!-- Please open "email-template.html" directly to view the source code. -->';
-            });
-
-        copyBtn.addEventListener('click', function() {
-            emailCodeTextarea.select();
-            document.execCommand('copy');
-            
-            const originalText = this.innerText;
-            this.innerText = 'Copied!';
-            this.style.background = '#C5A059'; // Heroic Gold
-            this.style.color = '#003366';
-            
-            setTimeout(() => {
-                this.innerText = originalText;
-                this.style.background = '';
-                this.style.color = '';
-            }, 2000);
+    // Template selector change
+    if (templateSelector && previewIframe) {
+        templateSelector.addEventListener('change', function () {
+            previewIframe.src = this.value;
         });
     }
+
+    // Copy template buttons
+    copyButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const templateFile = this.getAttribute('data-template');
+
+            // Fetch and copy template HTML
+            fetch(templateFile)
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.text();
+                })
+                .then(html => {
+                    // Create temporary textarea to copy
+                    const tempTextarea = document.createElement('textarea');
+                    tempTextarea.value = html;
+                    tempTextarea.style.position = 'fixed';
+                    tempTextarea.style.opacity = '0';
+                    document.body.appendChild(tempTextarea);
+                    tempTextarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempTextarea);
+
+                    // Update button text
+                    const originalText = this.innerText;
+                    this.innerText = '✓ Copied!';
+                    this.style.background = '#C5A059';
+                    this.style.color = '#003366';
+                    this.style.borderColor = '#C5A059';
+
+                    setTimeout(() => {
+                        this.innerText = originalText;
+                        this.style.background = '';
+                        this.style.color = '';
+                        this.style.borderColor = '';
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Failed to copy template:', err);
+                    this.innerText = '✗ Error';
+                    setTimeout(() => {
+                        this.innerText = 'Copy HTML Code';
+                    }, 2000);
+                });
+        });
+    });
 }
 
 // Dynamic Logo Animation
@@ -679,7 +739,7 @@ function initDynamicLogo() {
                 suffixElement.style.opacity = '1';
                 suffixElement.style.transform = 'translateX(0)';
             }
-            
+
             // Move to next index
             currentIndex = (currentIndex + 1) % subBrands.length;
 
@@ -694,18 +754,21 @@ function initDynamicLogo() {
 }
 
 // Initialize everything when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    // Initialize mobile navigation
+    initMobileNav();
+
     // Initialize Two.js canvases
     initHeroCanvas();
     initPatternCanvas();
     initPatternPreviews();
-    
+
     // Initialize smooth scrolling
     initSmoothScroll();
-    
+
     // Initialize scroll animations
     initScrollAnimations();
-    
+
     // Initialize Email Template
     initEmailTemplate();
 
@@ -720,7 +783,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // --- Download Helpers ---
 
-window.downloadAsset = function(url, filename) {
+window.downloadAsset = function (url, filename) {
     const link = document.createElement('a');
     link.href = url;
     link.download = filename;
@@ -729,19 +792,19 @@ window.downloadAsset = function(url, filename) {
     document.body.removeChild(link);
 };
 
-window.downloadAssetAsPng = function(url, filename) {
+window.downloadAssetAsPng = function (url, filename) {
     const img = new Image();
-    img.onload = function() {
+    img.onload = function () {
         const canvas = document.createElement('canvas');
         // Set high resolution
-        const scale = 4; 
+        const scale = 4;
         canvas.width = img.width * scale;
         canvas.height = img.height * scale;
         const ctx = canvas.getContext('2d');
         ctx.scale(scale, scale);
         ctx.drawImage(img, 0, 0);
-        
-        canvas.toBlob(function(blob) {
+
+        canvas.toBlob(function (blob) {
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
             link.download = filename;
@@ -751,23 +814,23 @@ window.downloadAssetAsPng = function(url, filename) {
         }, 'image/png');
     };
     // Prevent caching issues with fetch if needed, though local relative path usually fine
-    img.src = url; 
+    img.src = url;
 };
 
-window.downloadWordmark = function(format) {
+window.downloadWordmark = function (format) {
     // Create SVG string for wordmark
     const svgString = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 100" width="300" height="100">
         <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="'Didot', 'Bodoni MT', 'Playfair Display', serif" font-size="60" font-weight="bold" fill="#000000">Eroica</text>
     </svg>`;
-    
+
     if (format === 'svg') {
-        const blob = new Blob([svgString], {type: 'image/svg+xml'});
+        const blob = new Blob([svgString], { type: 'image/svg+xml' });
         const url = URL.createObjectURL(blob);
         window.downloadAsset(url, 'eroica-wordmark.svg');
         URL.revokeObjectURL(url);
     } else if (format === 'png') {
         const img = new Image();
-        img.onload = function() {
+        img.onload = function () {
             const canvas = document.createElement('canvas');
             const scale = 4;
             canvas.width = 300 * scale;
@@ -775,8 +838,8 @@ window.downloadWordmark = function(format) {
             const ctx = canvas.getContext('2d');
             ctx.scale(scale, scale);
             ctx.drawImage(img, 0, 0);
-            
-            canvas.toBlob(function(blob) {
+
+            canvas.toBlob(function (blob) {
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
                 link.download = 'eroica-wordmark.png';
@@ -788,3 +851,377 @@ window.downloadWordmark = function(format) {
         img.src = 'data:image/svg+xml;base64,' + btoa(svgString);
     }
 };
+
+// Interactive Logo Studio Logic
+function initLogoStudio() {
+    const logoSelect = document.getElementById('studio-logo-select');
+    const colorSwatches = document.querySelectorAll('.color-swatch');
+    const colorPicker = document.getElementById('studio-color-picker');
+    const previewContainer = document.getElementById('studio-preview-container');
+    const downloadBtn = document.getElementById('studio-download-btn');
+
+    if (!logoSelect || !previewContainer) return;
+
+    let currentSvgContent = '';
+    let currentColor = '#003366';
+
+    // Load initial logo
+    loadLogo(logoSelect.value);
+
+    // Event Listeners
+    logoSelect.addEventListener('change', (e) => {
+        loadLogo(e.target.value);
+    });
+
+    colorSwatches.forEach(swatch => {
+        swatch.addEventListener('click', () => {
+            const color = swatch.getAttribute('data-color');
+            updateColor(color);
+            colorPicker.value = color; // Update picker visual
+        });
+    });
+
+    colorPicker.addEventListener('input', (e) => {
+        updateColor(e.target.value);
+    });
+
+    downloadBtn.addEventListener('click', () => {
+        downloadCustomSvg();
+    });
+
+    function loadLogo(url) {
+        previewContainer.innerHTML = '<div class="loading-spinner" style="color: #003366;">Loading...</div>';
+
+        fetch(url)
+            .then(response => response.text())
+            .then(svgText => {
+                currentSvgContent = svgText;
+                // Inject SVG
+                previewContainer.innerHTML = svgText;
+
+                // Ensure SVG scales
+                const svg = previewContainer.querySelector('svg');
+                if (svg) {
+                    svg.style.width = '100%';
+                    svg.style.height = '100%';
+                    svg.style.maxHeight = '300px';
+
+                    // Apply current color immediately
+                    applyColorToSvg(currentColor);
+                }
+            })
+            .catch(err => {
+                console.error('Error loading SVG:', err);
+                previewContainer.innerHTML = '<p style="color: red;">Error loading logo.</p>';
+            });
+    }
+
+    function updateColor(color) {
+        currentColor = color;
+        applyColorToSvg(color);
+    }
+
+    function applyColorToSvg(color) {
+        const svg = previewContainer.querySelector('svg');
+        if (!svg) return;
+
+        // Target paths that likely form the logo shape
+        // In the provided SVGs, paths have fill attributes. 
+        // We want to override fill for paths that are not "none" or "transparent"
+        const paths = svg.querySelectorAll('path, circle, rect, polygon');
+
+        paths.forEach(path => {
+            const fill = path.getAttribute('fill');
+            // Simple heuristic: if it has a fill and it's not none/white (unless we want to recolor white too), change it.
+            // The provided SVGs seem to use black (#000000) for the main shape.
+            if (fill && fill !== 'none') {
+                path.setAttribute('fill', color);
+                path.style.fill = color; // Force style override
+            }
+        });
+    }
+
+    function downloadCustomSvg() {
+        const svg = previewContainer.querySelector('svg');
+        if (!svg) return;
+
+        // Serialize the current SVG state (with new colors)
+        const serializer = new XMLSerializer();
+        let source = serializer.serializeToString(svg);
+
+        // Add name spaces.
+        if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
+            source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+        }
+        if (!source.match(/^<svg[^>]+xmlns:xlink="http\:\/\/www\.w3\.org\/1999\/xlink"/)) {
+            source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
+        }
+
+        // Add xml declaration
+        source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+
+        // Convert to blob and download
+        const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
+
+        const downloadLink = document.createElement("a");
+        downloadLink.href = url;
+        downloadLink.download = `eroica-logo-custom-${Date.now()}.svg`;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+}
+
+// Initialize Logo Studio
+document.addEventListener('DOMContentLoaded', function () {
+    initLogoStudio();
+    initMesaLogoStudio();
+});
+
+// Mesa Logo Family Studio Logic
+function initMesaLogoStudio() {
+    const logoThumbs = document.querySelectorAll('.mesa-logo-thumb');
+    const colorSwatches = document.querySelectorAll('.mesa-color-swatch');
+    const colorPicker = document.getElementById('mesa-color-picker');
+    const previewContainer = document.getElementById('mesa-preview-container');
+    const downloadSvgBtn = document.getElementById('mesa-download-svg-btn');
+    const downloadPngBtn = document.getElementById('mesa-download-png-btn');
+
+    if (!previewContainer) return;
+
+    let currentLogoNumber = '1';
+    let currentSvgContent = '';
+    let currentColor = '#003366';
+
+    // Load initial logo
+    loadMesaLogo(currentLogoNumber);
+
+    // Logo thumbnail selection
+    logoThumbs.forEach(thumb => {
+        thumb.addEventListener('click', function() {
+            // Remove active class from all
+            logoThumbs.forEach(t => {
+                t.style.borderColor = 'rgba(255,255,255,0.2)';
+            });
+            
+            // Add active class to clicked
+            this.style.borderColor = '#C5A059';
+            
+            // Load the selected logo
+            const logoNum = this.getAttribute('data-logo');
+            currentLogoNumber = logoNum;
+            loadMesaLogo(logoNum);
+        });
+    });
+
+    // Color swatch selection
+    colorSwatches.forEach(swatch => {
+        swatch.addEventListener('click', () => {
+            const color = swatch.getAttribute('data-color');
+            updateMesaColor(color);
+            colorPicker.value = color;
+            
+            // Visual feedback
+            colorSwatches.forEach(s => s.style.transform = 'scale(1)');
+            swatch.style.transform = 'scale(1.2)';
+        });
+    });
+
+    // Color picker
+    colorPicker.addEventListener('input', (e) => {
+        updateMesaColor(e.target.value);
+    });
+
+    // Download SVG
+    downloadSvgBtn.addEventListener('click', () => {
+        downloadMesaSvg();
+    });
+
+    // Download PNG
+    downloadPngBtn.addEventListener('click', () => {
+        downloadMesaPng();
+    });
+
+    // Load logo function
+    function loadMesaLogo(logoNumber) {
+        previewContainer.innerHTML = '<div class="loading-spinner" style="color: #003366;">Loading...</div>';
+        
+        // Use XMLHttpRequest for better local file support
+        const url = `assets/mesa-logos/${logoNumber}.svg`;
+        
+        // Try to load using XMLHttpRequest first (better for local files)
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onload = function() {
+            if (xhr.status === 200 || xhr.status === 0) { // 0 for local files
+                const svgText = xhr.responseText;
+                currentSvgContent = svgText;
+                previewContainer.innerHTML = svgText;
+                
+                // Ensure SVG scales properly
+                const svg = previewContainer.querySelector('svg');
+                if (svg) {
+                    svg.style.width = '100%';
+                    svg.style.height = '100%';
+                    svg.style.maxHeight = '450px';
+                    
+                    // Apply current color
+                    applyMesaColor(currentColor);
+                }
+            } else {
+                console.error('Error loading Mesa logo. Status:', xhr.status);
+                previewContainer.innerHTML = `<p style="color: red;">Error loading logo (Status: ${xhr.status}). <br>Please ensure you're running from a web server or try another logo.</p>`;
+            }
+        };
+        xhr.onerror = function() {
+            console.error('Network error loading Mesa logo');
+            // Fallback: try to load as img and display message
+            previewContainer.innerHTML = `
+                <div style="text-align: center; padding: 2rem; color: #003366;">
+                    <p style="margin-bottom: 1rem;">⚠️ Cannot load SVG for editing.</p>
+                    <p style="font-size: 0.9rem; margin-bottom: 1rem;">Please open this page via a web server:</p>
+                    <code style="background: #f0f0f0; padding: 0.5rem; display: block; margin-bottom: 1rem;">python3 -m http.server 8080</code>
+                    <p style="font-size: 0.9rem;">Then visit: <strong>http://localhost:8080</strong></p>
+                    <hr style="margin: 1.5rem 0; opacity: 0.3;">
+                    <p style="font-size: 0.85rem; opacity: 0.7;">Preview only (color change disabled):</p>
+                    <img src="${url}" style="max-width: 100%; max-height: 300px; margin-top: 1rem;" alt="Logo ${logoNumber}">
+                </div>
+            `;
+        };
+        xhr.send();
+    }
+
+    // Update color function
+    function updateMesaColor(color) {
+        currentColor = color;
+        applyMesaColor(color);
+    }
+
+    // Apply color to SVG elements
+    function applyMesaColor(color) {
+        const svg = previewContainer.querySelector('svg');
+        if (!svg) return;
+
+        // Target all fill elements (paths, circles, rects, polygons, etc.)
+        const elements = svg.querySelectorAll('path, circle, rect, polygon, ellipse, line, polyline');
+        
+        elements.forEach(el => {
+            const fill = el.getAttribute('fill');
+            const stroke = el.getAttribute('stroke');
+            
+            // Change fill if it exists and is not 'none'
+            if (fill && fill !== 'none') {
+                el.setAttribute('fill', color);
+                el.style.fill = color;
+            }
+            
+            // Change stroke if it exists and is not 'none'
+            if (stroke && stroke !== 'none') {
+                el.setAttribute('stroke', color);
+                el.style.stroke = color;
+            }
+        });
+    }
+
+    // Download customized SVG
+    function downloadMesaSvg() {
+        const svg = previewContainer.querySelector('svg');
+        if (!svg) return;
+
+        // Serialize the SVG
+        const serializer = new XMLSerializer();
+        let source = serializer.serializeToString(svg);
+
+        // Add namespaces if not present
+        if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
+            source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+        }
+        if (!source.match(/^<svg[^>]+xmlns:xlink="http\:\/\/www\.w3\.org\/1999\/xlink"/)) {
+            source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
+        }
+
+        // Add XML declaration
+        source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+
+        // Create download
+        const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
+        const downloadLink = document.createElement("a");
+        downloadLink.href = url;
+        downloadLink.download = `eroica-mesa-logo-${currentLogoNumber}-${Date.now()}.svg`;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+
+    // Download as high-resolution PNG
+    function downloadMesaPng() {
+        const svg = previewContainer.querySelector('svg');
+        if (!svg) return;
+
+        // Get SVG dimensions
+        const bbox = svg.getBBox();
+        const viewBox = svg.getAttribute('viewBox');
+        let width, height;
+        
+        if (viewBox) {
+            const values = viewBox.split(' ');
+            width = parseFloat(values[2]);
+            height = parseFloat(values[3]);
+        } else {
+            width = bbox.width || 600;
+            height = bbox.height || 600;
+        }
+
+        // Create high-res canvas (4x for quality)
+        const scale = 4;
+        const canvas = document.createElement('canvas');
+        canvas.width = width * scale;
+        canvas.height = height * scale;
+        const ctx = canvas.getContext('2d');
+        ctx.scale(scale, scale);
+
+        // Serialize SVG
+        const serializer = new XMLSerializer();
+        let svgString = serializer.serializeToString(svg);
+        
+        // Ensure namespaces
+        if (!svgString.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
+            svgString = svgString.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+        }
+
+        // Create image from SVG
+        const img = new Image();
+        const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+        const url = URL.createObjectURL(svgBlob);
+
+        img.onload = function() {
+            // Fill white background
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, width, height);
+            
+            // Draw image
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            // Convert to PNG and download
+            canvas.toBlob(function(blob) {
+                const pngUrl = URL.createObjectURL(blob);
+                const downloadLink = document.createElement('a');
+                downloadLink.href = pngUrl;
+                downloadLink.download = `eroica-mesa-logo-${currentLogoNumber}-${Date.now()}.png`;
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+                URL.revokeObjectURL(pngUrl);
+                URL.revokeObjectURL(url);
+            }, 'image/png', 1.0);
+        };
+
+        img.onerror = function() {
+            console.error('Error loading SVG for PNG conversion');
+            alert('Error converting to PNG. Please try downloading as SVG instead.');
+            URL.revokeObjectURL(url);
+        };
+
+        img.src = url;
+    }
+}

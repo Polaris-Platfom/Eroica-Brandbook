@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,12 +10,20 @@
     <!-- Using Two.js from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/two.js/0.8.14/two.min.js"></script>
 </head>
+
 <body>
 
     <nav class="brand-nav">
-        <div class="nav-logo">Eroica</div>
-        <ul class="nav-links">
-            <li><a href="#intro">Introduction</a></li>
+        <div class="nav-logo">
+            <img src="assets/logo-horizontal-cropped.svg" alt="Eroica Logo" class="nav-logo-img">
+        </div>
+        <button class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#introduction">Introduction</a></li>
             <li><a href="#logo">Logo</a></li>
             <li><a href="#colors">Colors</a></li>
             <li><a href="#typography">Typography</a></li>
@@ -27,7 +36,6 @@
     <header class="hero-section" id="hero">
         <div id="hero-canvas"></div>
         <div class="hero-content">
-            <img src="assets/logo.svg" alt="Eroica Logo" class="hero-logo">
             <h1 class="tagline">The Democratic Symphony</h1>
             <p class="hero-sub">Brand Book & Visual Identity System</p>
         </div>
@@ -39,15 +47,18 @@
         <section id="intro" class="section-container">
             <div class="section-number">01</div>
             <h2 class="section-title">Introduction</h2>
-            
+
             <div class="intro-grid">
                 <div class="intro-card">
                     <h3>The Manifesto</h3>
-                    <p>Inspired by Beethoven's revolutionary Symphony No. 3 "Eroica," our brand carries the spirit of <strong>courage, transformation, and collective elevation</strong>.</p>
+                    <p>Inspired by Beethoven's revolutionary Symphony No. 3 "Eroica," our brand carries the spirit of
+                        <strong>courage, transformation, and collective elevation</strong>.
+                    </p>
                 </div>
                 <div class="intro-card">
                     <h3>The Symphony</h3>
-                    <p>Like a symphony, democracy is the harmonious collaboration of many distinct voices, each playing their part to create something greater.</p>
+                    <p>Like a symphony, democracy is the harmonious collaboration of many distinct voices, each playing
+                        their part to create something greater.</p>
                 </div>
             </div>
 
@@ -58,7 +69,8 @@
                 </div>
                 <div class="essence-item">
                     <span class="essence-label">Vision</span>
-                    <p>A world where every person shapes their community through accessible democratic participation.</p>
+                    <p>A world where every person shapes their community through accessible democratic participation.
+                    </p>
                 </div>
                 <div class="essence-item">
                     <span class="essence-label">Personality</span>
@@ -81,8 +93,10 @@
                 <!-- Dynamic Logo Concept -->
                 <div class="dynamic-logo-section">
                     <h3 class="gold-text" style="margin-bottom: 2rem;">Primary Identity: The Wordmark</h3>
-                    <p class="light-text section-intro-text">The primary representation of the brand is the clean, typographic "Eroica" wordmark. The symbol is reserved for specific applications like app icons or decorative patterns.</p>
-                    
+                    <p class="light-text section-intro-text">The primary representation of the brand is the clean,
+                        typographic "Eroica" wordmark. The symbol is reserved for specific applications like app icons
+                        or decorative patterns.</p>
+
                     <div id="dynamic-logo-container">
                         <!-- Animated Logo will be injected here by JS -->
                         <div class="logo-lockup">
@@ -90,14 +104,17 @@
                             <span id="logo-suffix"></span>
                         </div>
                     </div>
-                    <p class="light-text logo-caption">Dynamic web behavior: Sub-brands appear organically when needed.</p>
+                    <p class="light-text logo-caption">Dynamic web behavior: Sub-brands appear organically when needed.
+                    </p>
                 </div>
 
                 <div class="logo-usage-guidelines">
                     <div class="guideline-block">
                         <h4 class="gold-text" style="margin-bottom: 1rem;">When to use the Wordmark</h4>
-                        <p class="light-text" style="opacity: 0.9;">The text-only "Eroica" logo is the primary identifier. Use it for:</p>
-                        <ul class="light-text" style="margin-top: 1rem; list-style-type: circle; padding-left: 1.5rem; line-height: 1.8;">
+                        <p class="light-text" style="opacity: 0.9;">The text-only "Eroica" logo is the primary
+                            identifier. Use it for:</p>
+                        <ul class="light-text"
+                            style="margin-top: 1rem; list-style-type: circle; padding-left: 1.5rem; line-height: 1.8;">
                             <li>Website headers and navigation</li>
                             <li>Official documents and letterheads</li>
                             <li>Marketing materials where clarity is key</li>
@@ -106,8 +123,10 @@
                     </div>
                     <div class="guideline-block">
                         <h4 class="gold-text" style="margin-bottom: 1rem;">When to use the Symbol</h4>
-                        <p class="light-text" style="opacity: 0.9;">The graphical symbol is secondary. Use it only for:</p>
-                        <ul class="light-text" style="margin-top: 1rem; list-style-type: circle; padding-left: 1.5rem; line-height: 1.8;">
+                        <p class="light-text" style="opacity: 0.9;">The graphical symbol is secondary. Use it only for:
+                        </p>
+                        <ul class="light-text"
+                            style="margin-top: 1rem; list-style-type: circle; padding-left: 1.5rem; line-height: 1.8;">
                             <li>App icons and favicons</li>
                             <li>Profile pictures (social media)</li>
                             <li>Decorative patterns or watermarks</li>
@@ -117,178 +136,411 @@
                 </div>
 
                 <!-- Logo Downloads -->
-                <div class="logo-downloads" style="margin-top: 5rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 4rem;">
+                <div class="logo-downloads"
+                    style="margin-top: 5rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 4rem;">
                     <h3 class="gold-text" style="text-align: center; margin-bottom: 3rem;">Logo Downloads</h3>
-                    
-                    <div class="downloads-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+
+                    <div class="downloads-grid"
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
                         <!-- Standard Vertical Lockup -->
-                        <div class="download-card" style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 4px; text-align: center;">
-                            <div class="download-preview" style="height: 180px; display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 4px; margin-bottom: 1.5rem; padding: 1rem;">
-                                <img src="assets/logo.svg" alt="Primary Logo Vertical" id="dl-preview-1" style="max-height: 100%; max-width: 100%;">
+                        <div class="download-card"
+                            style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 4px; text-align: center;">
+                            <div class="download-preview"
+                                style="height: 180px; display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 4px; margin-bottom: 1.5rem; padding: 1rem;">
+                                <img src="assets/logo-primary-lockup.svg" alt="Primary Logo Vertical" id="dl-preview-1"
+                                    style="max-height: 100%; max-width: 100%;">
                             </div>
                             <h4 class="light-text" style="font-size: 1rem; margin-bottom: 0.5rem;">Primary Lockup</h4>
-                            <p class="light-text" style="font-size: 0.8rem; opacity: 0.7; margin-bottom: 1.5rem;">Symbol + Wordmark (Vertical)</p>
+                            <p class="light-text" style="font-size: 0.8rem; opacity: 0.7; margin-bottom: 1.5rem;">Symbol
+                                + Wordmark (Vertical)</p>
                             <div class="download-actions" style="display: flex; gap: 0.5rem; justify-content: center;">
-                                <button onclick="downloadAsset('assets/logo.svg', 'eroica-logo-vertical.svg')" class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">SVG</button>
-                                <button onclick="downloadAssetAsPng('assets/logo.svg', 'eroica-logo-vertical.png')" class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">PNG</button>
+                                <button
+                                    onclick="downloadAsset('assets/logo-primary-lockup.svg', 'eroica-logo-vertical.svg')"
+                                    class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">SVG</button>
+                                <button
+                                    onclick="downloadAssetAsPng('assets/logo-primary-lockup.svg', 'eroica-logo-vertical.png')"
+                                    class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">PNG</button>
                             </div>
                         </div>
 
-                        <!-- Wordmark Only -->
-                        <div class="download-card" style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 4px; text-align: center;">
-                            <div class="download-preview" style="height: 180px; display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 4px; margin-bottom: 1.5rem; padding: 1rem;">
-                                <!-- Constructing wordmark view for preview -->
-                                <span style="font-family: 'Didot', 'Bodoni MT', serif; font-size: 36px; color: #000;">Eroica</span>
-                            </div>
-                            <h4 class="light-text" style="font-size: 1rem; margin-bottom: 0.5rem;">Wordmark Only</h4>
-                            <p class="light-text" style="font-size: 0.8rem; opacity: 0.7; margin-bottom: 1.5rem;">Typography Identity</p>
-                            <div class="download-actions" style="display: flex; gap: 0.5rem; justify-content: center;">
-                                <!-- Creating a data URI for the wordmark SVG on the fly or just link if it existed. I will create a JS function to generate it. -->
-                                <button onclick="downloadWordmark('svg')" class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">SVG</button>
-                                <button onclick="downloadWordmark('png')" class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">PNG</button>
-                            </div>
-                        </div>
 
                         <!-- Symbol Only -->
-                        <div class="download-card" style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 4px; text-align: center;">
-                            <div class="download-preview" style="height: 180px; display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 4px; margin-bottom: 1.5rem; padding: 1rem;">
-                                <img src="assets/logo-symbol.svg" alt="Symbol Only" style="max-height: 100%; max-width: 100%;">
+                        <div class="download-card"
+                            style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 4px; text-align: center;">
+                            <div class="download-preview"
+                                style="height: 180px; display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 4px; margin-bottom: 1.5rem; padding: 1rem;">
+                                <img src="assets/logo-symbol.svg" alt="Symbol Only"
+                                    style="max-height: 100%; max-width: 100%;">
                             </div>
                             <h4 class="light-text" style="font-size: 1rem; margin-bottom: 0.5rem;">Symbol Only</h4>
-                            <p class="light-text" style="font-size: 0.8rem; opacity: 0.7; margin-bottom: 1.5rem;">Icon & Social Media</p>
+                            <p class="light-text" style="font-size: 0.8rem; opacity: 0.7; margin-bottom: 1.5rem;">Icon &
+                                Social Media</p>
                             <div class="download-actions" style="display: flex; gap: 0.5rem; justify-content: center;">
-                                <button onclick="downloadAsset('assets/logo-symbol.svg', 'eroica-symbol.svg')" class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">SVG</button>
-                                <button onclick="downloadAssetAsPng('assets/logo-symbol.svg', 'eroica-symbol.png')" class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">PNG</button>
+                                <button onclick="downloadAsset('assets/logo-symbol.svg', 'eroica-symbol.svg')"
+                                    class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">SVG</button>
+                                <button onclick="downloadAssetAsPng('assets/logo-symbol.svg', 'eroica-symbol.png')"
+                                    class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">PNG</button>
+                            </div>
+                        </div>
+
+                        <!-- Horizontal Logo (Cropped) -->
+                        <div class="download-card"
+                            style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 4px; text-align: center;">
+                            <div class="download-preview"
+                                style="height: 180px; display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 4px; margin-bottom: 1.5rem; padding: 1rem;">
+                                <img src="assets/logo-horizontal-cropped.svg" alt="Horizontal Logo"
+                                    style="max-height: 100%; max-width: 100%;">
+                            </div>
+                            <h4 class="light-text" style="font-size: 1rem; margin-bottom: 0.5rem;">Horizontal Logo</h4>
+                            <p class="light-text" style="font-size: 0.8rem; opacity: 0.7; margin-bottom: 1.5rem;">Symbol
+                                + Wordmark (Horizontal)</p>
+                            <div class="download-actions" style="display: flex; gap: 0.5rem; justify-content: center;">
+                                <button
+                                    onclick="downloadAsset('assets/logo-horizontal-cropped.svg', 'eroica-logo-horizontal.svg')"
+                                    class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">SVG</button>
+                                <button
+                                    onclick="downloadAssetAsPng('assets/logo-horizontal-cropped.svg', 'eroica-logo-horizontal.png')"
+                                    class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">PNG</button>
+                            </div>
+                        </div>
+
+                        <!-- Wordmark Only (Clean) -->
+                        <div class="download-card"
+                            style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 4px; text-align: center;">
+                            <div class="download-preview"
+                                style="height: 180px; display: flex; align-items: center; justify-content: center; background: #fff; border-radius: 4px; margin-bottom: 1.5rem; padding: 1rem;">
+                                <img src="assets/logo-wordmark-only.svg" alt="Wordmark Clean"
+                                    style="max-height: 100%; max-width: 100%;">
+                            </div>
+                            <h4 class="light-text" style="font-size: 1rem; margin-bottom: 0.5rem;">Wordmark Clean</h4>
+                            <p class="light-text" style="font-size: 0.8rem; opacity: 0.7; margin-bottom: 1.5rem;">
+                                Typography Only (Optimized)</p>
+                            <div class="download-actions" style="display: flex; gap: 0.5rem; justify-content: center;">
+                                <button
+                                    onclick="downloadAsset('assets/logo-wordmark-only.svg', 'eroica-wordmark-clean.svg')"
+                                    class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">SVG</button>
+                                <button
+                                    onclick="downloadAssetAsPng('assets/logo-wordmark-only.svg', 'eroica-wordmark-clean.png')"
+                                    class="btn-secondary" style="font-size: 0.75rem; padding: 0.5rem 1rem;">PNG</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="logo-construction">
-                    <h3 class="gold-text" style="text-align: center; margin-bottom: 2rem;">Symbol Construction (Secondary)</h3>
-                    <img src="assets/logo-construction.png" alt="Logo Construction Grid" class="full-width-image">
-                </div>
+                <!-- Interactive Logo Studio -->
+                <div class="logo-studio"
+                    style="margin-top: 5rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 4rem;">
+                    <h3 class="gold-text" style="text-align: center; margin-bottom: 3rem;">Interactive Logo Studio</h3>
+                    <p class="light-text section-intro-text">Customize the brand logos with official colors or custom
+                        values for specific applications.</p>
 
-                <div class="logo-anatomy">
-                    <div class="anatomy-item">
-                        <h4 class="gold-text">The Symbol</h4>
-                        <p>Organic flowing strokes within a circle, evoking civic elevation, collective waves, and symphonic harmony.</p>
-                    </div>
-                    <div class="anatomy-item">
-                        <h4 class="gold-text">The Wordmark</h4>
-                        <p>Classical serif typeface conveying timeless authority, institutional trust, and cultural refinement.</p>
-                    </div>
-                </div>
-
-                <div class="logo-specs">
-                    <div class="spec-box">
-                        <h4 class="gold-text">Clear Space</h4>
-                        <p>Minimum clear space = height of 'E' in wordmark</p>
-                    </div>
-                    <div class="spec-box">
-                        <h4 class="gold-text">Minimum Size</h4>
-                        <p>Digital: 40px height<br>Print: 15mm height</p>
-                    </div>
-                    <div class="spec-box">
-                        <h4 class="gold-text">Versions</h4>
-                        <p>Full color · Monochrome · White · Black</p>
-                    </div>
-                </div>
-
-                <!-- Logo Variants -->
-                <div class="logo-variants">
-                    <h3 class="gold-text" style="text-align: center; margin: 4rem 0 2rem;">Logo Variants</h3>
-                    
-                    <div class="variants-grid">
-                        <div class="variant-card">
-                            <div class="variant-preview light-preview">
-                                <img src="assets/logo.svg" alt="Full Color Logo">
+                    <div class="studio-container"
+                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; background: rgba(255,255,255,0.05); padding: 3rem; border-radius: 8px;">
+                        <div class="studio-controls">
+                            <div class="control-group" style="margin-bottom: 2rem;">
+                                <label class="light-text" style="display: block; margin-bottom: 0.5rem;">Select Logo
+                                    Variant</label>
+                                <select id="studio-logo-select"
+                                    style="width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 4px;">
+                                    <option value="assets/logo-variant-1.svg">Primary Lockup (Variant 1)</option>
+                                    <option value="assets/logo-variant-2.svg">Foundation Lockup (Variant 2)</option>
+                                    <option value="assets/logo-variant-3.svg">Platform Lockup (Variant 3)</option>
+                                    <option value="assets/logo-variant-4.svg">Labs Lockup (Variant 4)</option>
+                                </select>
                             </div>
-                            <h4>Full Color</h4>
-                            <p>Primary use on light backgrounds</p>
+
+                            <div class="control-group" style="margin-bottom: 2rem;">
+                                <label class="light-text" style="display: block; margin-bottom: 0.5rem;">Apply Brand
+                                    Color</label>
+                                <div class="brand-color-swatches" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                                    <button class="color-swatch" data-color="#003366"
+                                        style="width: 40px; height: 40px; background: #003366; border: 2px solid rgba(255,255,255,0.2); border-radius: 50%; cursor: pointer;"
+                                        title="Deep Civic Blue"></button>
+                                    <button class="color-swatch" data-color="#C5A059"
+                                        style="width: 40px; height: 40px; background: #C5A059; border: 2px solid rgba(255,255,255,0.2); border-radius: 50%; cursor: pointer;"
+                                        title="Heroic Gold"></button>
+                                    <button class="color-swatch" data-color="#2E5BFF"
+                                        style="width: 40px; height: 40px; background: #2E5BFF; border: 2px solid rgba(255,255,255,0.2); border-radius: 50%; cursor: pointer;"
+                                        title="Labs Blue"></button>
+                                    <button class="color-swatch" data-color="#B22222"
+                                        style="width: 40px; height: 40px; background: #B22222; border: 2px solid rgba(255,255,255,0.2); border-radius: 50%; cursor: pointer;"
+                                        title="Foundation Crimson"></button>
+                                    <button class="color-swatch" data-color="#FFFFFF"
+                                        style="width: 40px; height: 40px; background: #FFFFFF; border: 2px solid rgba(255,255,255,0.2); border-radius: 50%; cursor: pointer;"
+                                        title="White"></button>
+                                    <button class="color-swatch" data-color="#2C2C2C"
+                                        style="width: 40px; height: 40px; background: #2C2C2C; border: 2px solid rgba(255,255,255,0.2); border-radius: 50%; cursor: pointer;"
+                                        title="Charcoal"></button>
+                                </div>
+                            </div>
+
+                            <div class="control-group" style="margin-bottom: 2rem;">
+                                <label class="light-text" style="display: block; margin-bottom: 0.5rem;">Custom
+                                    Color</label>
+                                <input type="color" id="studio-color-picker" value="#003366"
+                                    style="width: 100%; height: 50px; border: none; cursor: pointer; border-radius: 4px;">
+                            </div>
+
+                            <button id="studio-download-btn" class="btn-primary" style="width: 100%;">Download
+                                Customized SVG</button>
                         </div>
 
-                        <div class="variant-card">
-                            <div class="variant-preview dark-preview">
-                                <img src="assets/logo-white.svg" alt="White Logo">
-                            </div>
-                            <h4>White Version</h4>
-                            <p>For dark backgrounds & photography</p>
-                        </div>
-
-                        <div class="variant-card">
-                            <div class="variant-preview light-preview">
-                                <img src="assets/logo-symbol.svg" alt="Symbol Only" class="symbol-size">
-                            </div>
-                            <h4>Symbol Only</h4>
-                            <p>App icons, social media, small spaces</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sub-Brand Logos -->
-                <div class="subbrand-section">
-                    <h3 class="gold-text" style="text-align: center; margin: 4rem 0 2rem;">Sub-Brand Identities</h3>
-                    
-                    <div class="subbrand-grid">
-                        <div class="subbrand-card">
-                            <div class="subbrand-preview">
-                                <img src="assets/logo-platform.svg" alt="Eroica Platform">
-                            </div>
-                            <div class="subbrand-info">
-                                <h4>Eroica Platform</h4>
-                                <div class="color-indicator platform-color"></div>
-                                <p><strong>Color:</strong> Deep Civic Blue (#003366)</p>
-                                <p class="subbrand-desc">Where civic action happens. Digital participation and transparency tools.</p>
-                            </div>
-                        </div>
-
-                        <div class="subbrand-card">
-                            <div class="subbrand-preview">
-                                <img src="assets/logo-labs.svg" alt="Eroica Labs">
-                            </div>
-                            <div class="subbrand-info">
-                                <h4>Eroica Labs</h4>
-                                <div class="color-indicator labs-color"></div>
-                                <p><strong>Color:</strong> Labs Electric Blue (#2E5BFF)</p>
-                                <p class="subbrand-desc">Where democratic futures are invented. Innovation and research hub.</p>
-                            </div>
-                        </div>
-
-                        <div class="subbrand-card">
-                            <div class="subbrand-preview">
-                                <img src="assets/logo-foundation.svg" alt="Eroica Foundation">
-                            </div>
-                            <div class="subbrand-info">
-                                <h4>Eroica Foundation</h4>
-                                <div class="color-indicator foundation-color"></div>
-                                <p><strong>Color:</strong> Foundation Crimson (#B22222)</p>
-                                <p class="subbrand-desc">Where civic culture is reborn. Education and social impact.</p>
-                            </div>
+                        <div class="studio-preview" id="studio-preview-container"
+                            style="background: white; border-radius: 4px; display: flex; align-items: center; justify-content: center; padding: 2rem; min-height: 400px; position: relative;">
+                            <!-- SVG will be injected here -->
+                            <div class="loading-spinner" style="color: #003366;">Loading...</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="logo-usage">
-                    <div class="usage-do">
-                        <h4>✓ Correct Usage</h4>
-                        <ul>
-                            <li>Use on light or dark backgrounds</li>
-                            <li>Maintain proportions</li>
-                            <li>Respect clear space</li>
-                            <li>Use approved color versions</li>
-                        </ul>
-                    </div>
-                    <div class="usage-dont">
-                        <h4>✗ Incorrect Usage</h4>
-                        <ul>
-                            <li>Do not rotate or skew</li>
-                            <li>Do not change proportions</li>
-                            <li>Do not add effects</li>
-                            <li>Do not use on busy backgrounds</li>
-                        </ul>
+                <!-- Mesa Logo Family -->
+                <div class="mesa-logo-family"
+                    style="margin-top: 5rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 4rem;">
+                    <h3 class="gold-text" style="text-align: center; margin-bottom: 1.5rem;">Mesa Logo Family</h3>
+                    <p class="light-text section-intro-text" style="text-align: center; max-width: 800px; margin: 0 auto 3rem;">
+                        A collection of 12 customizable logo variations. Select any logo, apply brand colors or custom values, and download in your preferred format.
+                    </p>
+
+                    <div class="mesa-studio-container"
+                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; background: rgba(255,255,255,0.05); padding: 3rem; border-radius: 8px;">
+                        
+                        <!-- Controls Column -->
+                        <div class="mesa-controls">
+                            <div class="control-group" style="margin-bottom: 2rem;">
+                                <label class="light-text" style="display: block; margin-bottom: 1rem; font-weight: 600;">Select Logo from Collection</label>
+                                
+                                <!-- Logo Grid Selector -->
+                                <div class="mesa-logo-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem;">
+                                    <!-- Generate 12 logo thumbnails -->
+                                    <button class="mesa-logo-thumb active" data-logo="1" 
+                                        style="aspect-ratio: 1; background: white; border: 2px solid #C5A059; border-radius: 4px; cursor: pointer; padding: 0.5rem; transition: all 0.3s;">
+                                        <img src="assets/mesa-logos/1.svg" alt="Logo 1" style="width: 100%; height: 100%; object-fit: contain;">
+                                    </button>
+                                    <button class="mesa-logo-thumb" data-logo="2" 
+                                        style="aspect-ratio: 1; background: white; border: 2px solid rgba(255,255,255,0.2); border-radius: 4px; cursor: pointer; padding: 0.5rem; transition: all 0.3s;">
+                                        <img src="assets/mesa-logos/2.svg" alt="Logo 2" style="width: 100%; height: 100%; object-fit: contain;">
+                                    </button>
+                                    <button class="mesa-logo-thumb" data-logo="3" 
+                                        style="aspect-ratio: 1; background: white; border: 2px solid rgba(255,255,255,0.2); border-radius: 4px; cursor: pointer; padding: 0.5rem; transition: all 0.3s;">
+                                        <img src="assets/mesa-logos/3.svg" alt="Logo 3" style="width: 100%; height: 100%; object-fit: contain;">
+                                    </button>
+                                    <button class="mesa-logo-thumb" data-logo="4" 
+                                        style="aspect-ratio: 1; background: white; border: 2px solid rgba(255,255,255,0.2); border-radius: 4px; cursor: pointer; padding: 0.5rem; transition: all 0.3s;">
+                                        <img src="assets/mesa-logos/4.svg" alt="Logo 4" style="width: 100%; height: 100%; object-fit: contain;">
+                                    </button>
+                                    <button class="mesa-logo-thumb" data-logo="5" 
+                                        style="aspect-ratio: 1; background: white; border: 2px solid rgba(255,255,255,0.2); border-radius: 4px; cursor: pointer; padding: 0.5rem; transition: all 0.3s;">
+                                        <img src="assets/mesa-logos/5.svg" alt="Logo 5" style="width: 100%; height: 100%; object-fit: contain;">
+                                    </button>
+                                    <button class="mesa-logo-thumb" data-logo="6" 
+                                        style="aspect-ratio: 1; background: white; border: 2px solid rgba(255,255,255,0.2); border-radius: 4px; cursor: pointer; padding: 0.5rem; transition: all 0.3s;">
+                                        <img src="assets/mesa-logos/6.svg" alt="Logo 6" style="width: 100%; height: 100%; object-fit: contain;">
+                                    </button>
+                                    <button class="mesa-logo-thumb" data-logo="7" 
+                                        style="aspect-ratio: 1; background: white; border: 2px solid rgba(255,255,255,0.2); border-radius: 4px; cursor: pointer; padding: 0.5rem; transition: all 0.3s;">
+                                        <img src="assets/mesa-logos/7.svg" alt="Logo 7" style="width: 100%; height: 100%; object-fit: contain;">
+                                    </button>
+                                    <button class="mesa-logo-thumb" data-logo="8" 
+                                        style="aspect-ratio: 1; background: white; border: 2px solid rgba(255,255,255,0.2); border-radius: 4px; cursor: pointer; padding: 0.5rem; transition: all 0.3s;">
+                                        <img src="assets/mesa-logos/8.svg" alt="Logo 8" style="width: 100%; height: 100%; object-fit: contain;">
+                                    </button>
+                                    <button class="mesa-logo-thumb" data-logo="9" 
+                                        style="aspect-ratio: 1; background: white; border: 2px solid rgba(255,255,255,0.2); border-radius: 4px; cursor: pointer; padding: 0.5rem; transition: all 0.3s;">
+                                        <img src="assets/mesa-logos/9.svg" alt="Logo 9" style="width: 100%; height: 100%; object-fit: contain;">
+                                    </button>
+                                    <button class="mesa-logo-thumb" data-logo="10" 
+                                        style="aspect-ratio: 1; background: white; border: 2px solid rgba(255,255,255,0.2); border-radius: 4px; cursor: pointer; padding: 0.5rem; transition: all 0.3s;">
+                                        <img src="assets/mesa-logos/10.svg" alt="Logo 10" style="width: 100%; height: 100%; object-fit: contain;">
+                                    </button>
+                                    <button class="mesa-logo-thumb" data-logo="11" 
+                                        style="aspect-ratio: 1; background: white; border: 2px solid rgba(255,255,255,0.2); border-radius: 4px; cursor: pointer; padding: 0.5rem; transition: all 0.3s;">
+                                        <img src="assets/mesa-logos/11.svg" alt="Logo 11" style="width: 100%; height: 100%; object-fit: contain;">
+                                    </button>
+                                    <button class="mesa-logo-thumb" data-logo="12" 
+                                        style="aspect-ratio: 1; background: white; border: 2px solid rgba(255,255,255,0.2); border-radius: 4px; cursor: pointer; padding: 0.5rem; transition: all 0.3s;">
+                                        <img src="assets/mesa-logos/12.svg" alt="Logo 12" style="width: 100%; height: 100%; object-fit: contain;">
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="control-group" style="margin-bottom: 2rem;">
+                                <label class="light-text" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Apply Brand Color</label>
+                                <div class="mesa-color-swatches" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                                    <button class="mesa-color-swatch" data-color="#003366"
+                                        style="width: 40px; height: 40px; background: #003366; border: 2px solid rgba(255,255,255,0.2); border-radius: 50%; cursor: pointer; transition: all 0.3s;"
+                                        title="Deep Civic Blue"></button>
+                                    <button class="mesa-color-swatch" data-color="#C5A059"
+                                        style="width: 40px; height: 40px; background: #C5A059; border: 2px solid rgba(255,255,255,0.2); border-radius: 50%; cursor: pointer; transition: all 0.3s;"
+                                        title="Heroic Gold"></button>
+                                    <button class="mesa-color-swatch" data-color="#2E5BFF"
+                                        style="width: 40px; height: 40px; background: #2E5BFF; border: 2px solid rgba(255,255,255,0.2); border-radius: 50%; cursor: pointer; transition: all 0.3s;"
+                                        title="Labs Blue"></button>
+                                    <button class="mesa-color-swatch" data-color="#B22222"
+                                        style="width: 40px; height: 40px; background: #B22222; border: 2px solid rgba(255,255,255,0.2); border-radius: 50%; cursor: pointer; transition: all 0.3s;"
+                                        title="Foundation Crimson"></button>
+                                    <button class="mesa-color-swatch" data-color="#FFFFFF"
+                                        style="width: 40px; height: 40px; background: #FFFFFF; border: 2px solid rgba(255,255,255,0.2); border-radius: 50%; cursor: pointer; transition: all 0.3s;"
+                                        title="White"></button>
+                                    <button class="mesa-color-swatch" data-color="#2C2C2C"
+                                        style="width: 40px; height: 40px; background: #2C2C2C; border: 2px solid rgba(255,255,255,0.2); border-radius: 50%; cursor: pointer; transition: all 0.3s;"
+                                        title="Charcoal"></button>
+                                </div>
+                            </div>
+
+                            <div class="control-group" style="margin-bottom: 2rem;">
+                                <label class="light-text" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Custom Color</label>
+                                <input type="color" id="mesa-color-picker" value="#003366"
+                                    style="width: 100%; height: 50px; border: none; cursor: pointer; border-radius: 4px;">
+                            </div>
+
+                            <div class="control-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <button id="mesa-download-svg-btn" class="btn-primary" style="width: 100%;">
+                                    Download SVG
+                                </button>
+                                <button id="mesa-download-png-btn" class="btn-secondary" style="width: 100%;">
+                                    Download PNG
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Preview Column -->
+                        <div class="mesa-preview" id="mesa-preview-container"
+                            style="background: white; border-radius: 4px; display: flex; align-items: center; justify-content: center; padding: 2rem; min-height: 500px; position: relative;">
+                            <!-- SVG will be injected here -->
+                            <div class="loading-spinner" style="color: #003366;">Loading logo...</div>
+                        </div>
                     </div>
                 </div>
+
+                <h3 class="gold-text" style="text-align: center; margin-bottom: 2rem; margin-top: 5rem;">Symbol Construction
+                    (Secondary)</h3>
+                <img src="assets/logo-construction.png" alt="Logo Construction Grid" class="full-width-image">
+            </div>
+
+            <div class="logo-anatomy">
+                <div class="anatomy-item">
+                    <h4 class="gold-text">The Symbol</h4>
+                    <p>Organic flowing strokes within a circle, evoking civic elevation, collective waves, and
+                        symphonic harmony.</p>
+                </div>
+                <div class="anatomy-item">
+                    <h4 class="gold-text">The Wordmark</h4>
+                    <p>Classical serif typeface conveying timeless authority, institutional trust, and cultural
+                        refinement.</p>
+                </div>
+            </div>
+
+            <div class="logo-specs">
+                <div class="spec-box">
+                    <h4 class="gold-text">Clear Space</h4>
+                    <p>Minimum clear space = height of 'E' in wordmark</p>
+                </div>
+                <div class="spec-box">
+                    <h4 class="gold-text">Minimum Size</h4>
+                    <p>Digital: 40px height<br>Print: 15mm height</p>
+                </div>
+                <div class="spec-box">
+                    <h4 class="gold-text">Versions</h4>
+                    <p>Full color · Monochrome · White · Black</p>
+                </div>
+            </div>
+
+            <!-- Logo Variants -->
+            <div class="logo-variants">
+                <h3 class="gold-text" style="text-align: center; margin: 4rem 0 2rem;">Logo Variants</h3>
+
+                <div class="variants-grid">
+                    <div class="variant-card">
+                        <div class="variant-preview light-preview">
+                            <img src="assets/logo.svg" alt="Full Color Logo">
+                        </div>
+                        <h4>Full Color</h4>
+                        <p>Primary use on light backgrounds</p>
+                    </div>
+
+                    <div class="variant-card">
+                        <div class="variant-preview dark-preview">
+                            <img src="assets/logo-white.svg" alt="White Logo">
+                        </div>
+                        <h4>White Version</h4>
+                        <p>For dark backgrounds & photography</p>
+                    </div>
+
+                    <div class="variant-card">
+                        <div class="variant-preview light-preview">
+                            <img src="assets/logo-symbol.svg" alt="Symbol Only" class="symbol-size">
+                        </div>
+                        <h4>Symbol Only</h4>
+                        <p>App icons, social media, small spaces</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub-Brand Logos -->
+            <div class="subbrand-section">
+                <h3 class="gold-text" style="text-align: center; margin: 4rem 0 2rem;">Sub-Brand Identities</h3>
+
+                <div class="subbrand-grid">
+                    <div class="subbrand-card">
+                        <div class="subbrand-preview">
+                            <img src="assets/logo-platform.svg" alt="Eroica Platform">
+                        </div>
+                        <div class="subbrand-info">
+                            <h4>Eroica Platform</h4>
+                            <div class="color-indicator platform-color"></div>
+                            <p><strong>Color:</strong> Deep Civic Blue (#003366)</p>
+                            <p class="subbrand-desc">Where civic action happens. Digital participation and
+                                transparency tools.</p>
+                        </div>
+                    </div>
+
+                    <div class="subbrand-card">
+                        <div class="subbrand-preview">
+                            <img src="assets/logo-labs.svg" alt="Eroica Labs">
+                        </div>
+                        <div class="subbrand-info">
+                            <h4>Eroica Labs</h4>
+                            <div class="color-indicator labs-color"></div>
+                            <p><strong>Color:</strong> Labs Electric Blue (#2E5BFF)</p>
+                            <p class="subbrand-desc">Where democratic futures are invented. Innovation and research
+                                hub.</p>
+                        </div>
+                    </div>
+
+                    <div class="subbrand-card">
+                        <div class="subbrand-preview">
+                            <img src="assets/logo-foundation.svg" alt="Eroica Foundation">
+                        </div>
+                        <div class="subbrand-info">
+                            <h4>Eroica Foundation</h4>
+                            <div class="color-indicator foundation-color"></div>
+                            <p><strong>Color:</strong> Foundation Crimson (#B22222)</p>
+                            <p class="subbrand-desc">Where civic culture is reborn. Education and social impact.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="logo-usage">
+                <div class="usage-do">
+                    <h4>✓ Correct Usage</h4>
+                    <ul>
+                        <li>Use on light or dark backgrounds</li>
+                        <li>Maintain proportions</li>
+                        <li>Respect clear space</li>
+                        <li>Use approved color versions</li>
+                    </ul>
+                </div>
+                <div class="usage-dont">
+                    <h4>✗ Incorrect Usage</h4>
+                    <ul>
+                        <li>Do not rotate or skew</li>
+                        <li>Do not change proportions</li>
+                        <li>Do not add effects</li>
+                        <li>Do not use on busy backgrounds</li>
+                    </ul>
+                </div>
+            </div>
             </div>
         </section>
 
@@ -432,7 +684,8 @@
                     <div class="type-specimen-grid">
                         <div class="specimen">
                             <span class="label">Body</span>
-                            <p class="sample sans-font">Clear, accessible typography for all citizens. Designed for maximum readability and democratic access.</p>
+                            <p class="sample sans-font">Clear, accessible typography for all citizens. Designed for
+                                maximum readability and democratic access.</p>
                         </div>
                         <div class="specimen">
                             <span class="label">Usage</span>
@@ -461,7 +714,8 @@
         <section id="patterns" class="section-container">
             <div class="section-number">05</div>
             <h2 class="section-title">Pattern Library</h2>
-            <p class="section-intro">Symphonic patterns inspired by rhythm, flow, and collective movement. Use at 10-15% opacity as backgrounds.</p>
+            <p class="section-intro">Symphonic patterns inspired by rhythm, flow, and collective movement. Use at 10-15%
+                opacity as backgrounds.</p>
 
             <div class="pattern-library">
                 <div class="pattern-item">
@@ -523,7 +777,8 @@
             <h2 class="section-title light-text">Brand Architecture</h2>
 
             <div class="arch-intro">
-                <p class="large-text">Eroica operates as a unified brand system with three distinct sub-brands. Each shares the master brand's DNA while expressing its own focus through color accents.</p>
+                <p class="large-text">Eroica operates as a unified brand system with three distinct sub-brands. Each
+                    shares the master brand's DNA while expressing its own focus through color accents.</p>
             </div>
 
             <div class="architecture-grid">
@@ -532,7 +787,8 @@
                     <div class="arch-content">
                         <h3>Eroica Platform</h3>
                         <p class="arch-tagline">Where civic action happens</p>
-                        <p class="arch-desc">Digital participation: voting, proposals, community funding, transparency tools.</p>
+                        <p class="arch-desc">Digital participation: voting, proposals, community funding, transparency
+                            tools.</p>
                         <div class="arch-keywords">
                             <span>Participation</span>
                             <span>Clarity</span>
@@ -548,7 +804,8 @@
                     <div class="arch-content">
                         <h3>Eroica Labs</h3>
                         <p class="arch-tagline">Where democratic futures are invented</p>
-                        <p class="arch-desc">Innovation R&D: democracy experiments, civic AI, blockchain governance, open-source tools.</p>
+                        <p class="arch-desc">Innovation R&D: democracy experiments, civic AI, blockchain governance,
+                            open-source tools.</p>
                         <div class="arch-keywords">
                             <span>Innovation</span>
                             <span>Experimentation</span>
@@ -564,7 +821,8 @@
                     <div class="arch-content">
                         <h3>Eroica Foundation</h3>
                         <p class="arch-tagline">Where civic culture is reborn</p>
-                        <p class="arch-desc">Education and culture: civic storytelling, democratic training, social impact campaigns.</p>
+                        <p class="arch-desc">Education and culture: civic storytelling, democratic training, social
+                            impact campaigns.</p>
                         <div class="arch-keywords">
                             <span>Education</span>
                             <span>Culture</span>
@@ -586,7 +844,7 @@
             <!-- Business Cards -->
             <div class="stationery-section">
                 <h3 class="subsection-title">Business Cards</h3>
-                
+
                 <div class="card-showcase">
                     <!-- Front -->
                     <div class="business-card-container">
@@ -640,7 +898,7 @@
             <!-- Letterhead -->
             <div class="stationery-section">
                 <h3 class="subsection-title">Letterhead</h3>
-                
+
                 <div class="letterhead-showcase">
                     <div class="letterhead-container">
                         <div class="letterhead-preview">
@@ -714,7 +972,7 @@
             <!-- Envelope -->
             <div class="stationery-section">
                 <h3 class="subsection-title">Envelope</h3>
-                
+
                 <div class="envelope-showcase">
                     <div class="envelope-container">
                         <div class="envelope-preview">
@@ -758,29 +1016,91 @@
 
             <!-- Email Template -->
             <div class="stationery-section">
-                <h3 class="subsection-title">Email Communication</h3>
-                <p class="section-intro">Responsive HTML email template optimized for all major clients. Designed to maintain brand integrity across devices.</p>
-                
-                <div class="card-showcase">
-                    <div class="email-preview-container">
-                        <h4 style="margin-bottom: 1rem; color: var(--deep-civic-blue); font-size: 1rem; font-family: var(--font-serif);">Visual Preview</h4>
-                        <iframe src="email-template.html" style="width: 100%; height: 600px; border: 1px solid #eee; border-radius: 4px; background: #f9f9f9;"></iframe>
+                <h3 class="subsection-title">Email Communication Templates</h3>
+                <p class="section-intro">Responsive HTML email templates optimized for all major clients. Select a
+                    template to preview and copy the HTML code.</p>
+
+                <!-- Template Grid with Copy Buttons -->
+                <div
+                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                    <!-- Newsletter Template -->
+                    <div style="background: var(--off-white); padding: 1.5rem; border-radius: 4px; text-align: center;">
+                        <h4
+                            style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--deep-civic-blue); margin-bottom: 0.5rem;">
+                            Newsletter</h4>
+                        <p style="font-size: 0.85rem; color: #666; margin-bottom: 1rem;">General updates & announcements
+                        </p>
+                        <button class="btn-secondary copy-template-btn" data-template="email-template.html"
+                            style="width: 100%; font-size: 0.8rem; padding: 0.75rem;">
+                            Copy HTML Code
+                        </button>
                     </div>
 
-                    <div class="email-code-container">
-                        <h4 style="margin-bottom: 1rem; color: var(--deep-civic-blue); font-size: 1rem; font-family: var(--font-serif);">HTML Source Code</h4>
-                        <div style="position: relative; height: 600px;">
-                            <textarea id="email-code" style="width: 100%; height: 100%; padding: 1rem; font-family: monospace; font-size: 12px; border: 1px solid #eee; border-radius: 4px; background: #2c2c2c; color: #eee; resize: none;" readonly></textarea>
-                            <button id="copy-email-btn" class="btn-primary" style="position: absolute; top: 1rem; right: 1rem; font-size: 0.7rem; padding: 0.5rem 1rem;">Copy HTML</button>
-                        </div>
+                    <!-- Event Template -->
+                    <div style="background: var(--off-white); padding: 1.5rem; border-radius: 4px; text-align: center;">
+                        <h4
+                            style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--deep-civic-blue); margin-bottom: 0.5rem;">
+                            Event Invitation</h4>
+                        <p style="font-size: 0.85rem; color: #666; margin-bottom: 1rem;">Town halls & community events
+                        </p>
+                        <button class="btn-secondary copy-template-btn" data-template="email-template-event.html"
+                            style="width: 100%; font-size: 0.8rem; padding: 0.75rem;">
+                            Copy HTML Code
+                        </button>
                     </div>
+
+                    <!-- Platform Update Template -->
+                    <div style="background: var(--off-white); padding: 1.5rem; border-radius: 4px; text-align: center;">
+                        <h4
+                            style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--deep-civic-blue); margin-bottom: 0.5rem;">
+                            Platform Update</h4>
+                        <p style="font-size: 0.85rem; color: #666; margin-bottom: 1rem;">Labs features & tech updates
+                        </p>
+                        <button class="btn-secondary copy-template-btn" data-template="email-template-update.html"
+                            style="width: 100%; font-size: 0.8rem; padding: 0.75rem;">
+                            Copy HTML Code
+                        </button>
+                    </div>
+
+                    <!-- Impact Report Template -->
+                    <div style="background: var(--off-white); padding: 1.5rem; border-radius: 4px; text-align: center;">
+                        <h4
+                            style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--deep-civic-blue); margin-bottom: 0.5rem;">
+                            Impact Report</h4>
+                        <p style="font-size: 0.85rem; color: #666; margin-bottom: 1rem;">Foundation statistics & reports
+                        </p>
+                        <button class="btn-secondary copy-template-btn" data-template="email-template-impact.html"
+                            style="width: 100%; font-size: 0.8rem; padding: 0.75rem;">
+                            Copy HTML Code
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Template Preview -->
+                <div style="text-align: center; margin-bottom: 1.5rem;">
+                    <label for="template-selector"
+                        style="font-family: var(--font-sans); font-size: 0.9rem; color: var(--charcoal); margin-right: 1rem; font-weight: 600;">Preview
+                        Template:</label>
+                    <select id="template-selector"
+                        style="font-family: var(--font-sans); font-size: 0.9rem; padding: 0.5rem 1rem; border: 2px solid var(--deep-civic-blue); border-radius: 4px; background: white; color: var(--deep-civic-blue); cursor: pointer;">
+                        <option value="email-template.html">Newsletter (General)</option>
+                        <option value="email-template-event.html">Event Invitation</option>
+                        <option value="email-template-update.html">Platform Update (Labs)</option>
+                        <option value="email-template-impact.html">Impact Report (Foundation)</option>
+                    </select>
+                </div>
+
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <iframe id="email-preview-iframe" src="email-template.html"
+                        style="width: 100%; height: 700px; border: 1px solid #eee; border-radius: 4px; background: #f9f9f9; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"></iframe>
                 </div>
             </div>
 
             <!-- Brand Applications Showcase -->
             <div class="stationery-section">
                 <h3 class="subsection-title">Brand in Context</h3>
-                <p class="section-intro">Real-world applications demonstrating the brand system across print, digital, and physical materials.</p>
+                <p class="section-intro">Real-world applications demonstrating the brand system across print, digital,
+                    and physical materials.</p>
                 <img src="assets/applications-mockup.jpg" alt="Eroica Brand Applications" class="full-width-image">
                 <div class="applications-grid-caption">
                     <div class="caption-item">
@@ -811,7 +1131,9 @@
                 <h3 class="subsection-title">Merchandise Applications</h3>
                 <img src="assets/moodboard.png" alt="Eroica Merchandise & Materials" class="full-width-image">
                 <div class="applications-caption">
-                    <p>Brand materials and textures: Wool and linen swatches · Typography specimens · "Heroic Participation" and "Democratic Harmony" cards · Civic photography · Musical notation · Ballot box symbolism · Logo applications on various materials</p>
+                    <p>Brand materials and textures: Wool and linen swatches · Typography specimens · "Heroic
+                        Participation" and "Democratic Harmony" cards · Civic photography · Musical notation · Ballot
+                        box symbolism · Logo applications on various materials</p>
                 </div>
             </div>
         </section>
@@ -828,4 +1150,5 @@
 
     <script src="js/app.js"></script>
 </body>
+
 </html>
