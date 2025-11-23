@@ -1,30 +1,43 @@
-# OS Files
+# macOS
 .DS_Store
-Thumbs.db
+.AppleDouble
+.LSOverride
 
-# Editor Files
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Temporary images and test files
+Gemini_Generated_Image_*
+Mesa 4 plazas/
+Mesa 4 plazas*.svg
+
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# Temporary Files
-*.tmp
-*.temp
+# Logs
 *.log
+npm-debug.log*
 
-# Node modules (if needed in future)
-node_modules/
+# Temporary scripts
+commit-mesa-logos.sh
 
-# Environment variables
-.env
-.env.local
-
-# Build outputs
-dist/
-build/
-
-# Backup files
-*.bak
-*.backup
